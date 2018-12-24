@@ -1,0 +1,22 @@
+@font-face {
+	font-family: Dosis Bold;
+	src: url(fonts/dosis-bold.ttf);
+}
+
+.new_card_name {
+	font-family: Dosis Bold, sans-serif;
+	margin: 10px;
+	margin-top: 0px;
+	width: 200px;
+	color: #fff;
+	margin-left: 0px;
+	border: none;
+	padding: 5px;
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, 1);
+	outline: none;
+}
+
+.addform {
+	padding: 10px;
+}

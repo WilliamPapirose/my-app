@@ -1,0 +1,50 @@
+@font-face {
+    font-family: Dosis Bold;
+    src: url(fonts/dosis-bold.ttf);
+}
+
+.popup {
+    font-family: Dosis Bold, sans-serif;
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+	width: 70%;
+    height: 80%;
+	background-color: rgb(91, 42, 104);
+    border-radius: 12px;
+    margin: 0 auto;
+}
+
+.popup .head {
+    width: 100%;
+    background-color: blueviolet;
+	box-sizing: border-box; 
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.popup .buttons {
+    float: right;
+    margin: 0;
+    margin-top: -38px;
+    margin-right: -7px;
+}
+
+.fade {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: fit-content;
+    height: 100%;
+    padding: 5% 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.column_name {
+    margin: 0 auto; 
+    text-align: center;
+    max-width: 750px;
+    word-break: break-all;
+    color: rgba(0, 0, 0, 0.4);
+}

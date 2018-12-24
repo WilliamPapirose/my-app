@@ -1,0 +1,16 @@
+.column {
+	width:320px;
+	float:left;
+	text-align:center;
+	margin: 10px;
+	border-radius: 5px;
+	background-color: #4e2555;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 900;
+}
+
+.column p {
+	margin: 0;
+	margin-top: 5px;
+}

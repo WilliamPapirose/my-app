@@ -1,0 +1,58 @@
+@font-face {
+  font-family: Dosis Bold;
+  src: url(fonts/dosis-bold.ttf);
+}
+
+.App {
+  text-align: center;
+  font-family: Dosis Bold, sans-serif;
+}
+
+.who {
+  position: fixed;
+  width: 300px;
+  background-color: darkslateblue;
+  border-radius: 12px;
+  text-align: center;
+  font-family: Dosis Bold, sans-serif;
+  left: 50%;
+  margin-left: -150px; 
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.fade {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: fit-content;
+  height: 100%;
+  padding: 5% 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.textarea {
+  padding: 2px;
+	box-sizing: border-box; 
+	width: 280px;
+	resize: none;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+	color: #fff;
+	font-size: 18px;
+	font-weight: 900;
+	border-radius: 2px;
+	text-align: center;
+	word-break: normal;
+  outline: none;
+}
+
+.textarea:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.textarea:focus {
+  background-color: rgba(0, 0, 0, 0.6);
+}
