@@ -6,12 +6,14 @@
 .App {
   text-align: center;
   font-family: Dosis Bold, sans-serif;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .who {
   position: fixed;
   width: 300px;
-  background-color: darkslateblue;
+  background-color: rgb(83, 24, 88);
   border-radius: 12px;
   text-align: center;
   font-family: Dosis Bold, sans-serif;
@@ -55,4 +57,11 @@
 
 .textarea:focus {
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+.vbg {
+  background-color: rgb(31, 6, 29);
+  position: fixed;
+  width: 100%;
+  min-height: 100vh;
 }

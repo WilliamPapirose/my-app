@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './CardInfo.css';
+import Description from './Description.js';
 import './Style.css';
 
 class CardInfo extends Component{
@@ -10,15 +11,15 @@ class CardInfo extends Component{
     handleKeyUp(event) {
         event.preventDefault();
         const keyValue = event.key;
-        if (keyValue==="Escape") {
+        if (keyValue === "Escape") {
             this.props.hide();
         }
     }
     render(){
         return (  
-            <div onKeyUp={this.handleKeyUp} class="fade">
+            <div onKeyUp={this.handleKeyUp} class="fade_inf">
                 <div class="popup">
-                <div class="head"><p style={{margin:0}}>{this.props.card.name}</p>
+                <div class="head"><p class='author'>Author: {this.props.card.author}</p><p style={{margin:0}}>{this.props.card.name}</p>
                 <p class="column_name">{this.props.card.column}</p>
                     <div class="buttons">   
                         <button class="button plus" style={{float: "right"}}  onClick={() => {
@@ -28,12 +29,9 @@ class CardInfo extends Component{
                             
                         }}>+</button>
                     </div>
-                </div>
-                    <div>
-                        <div class="description">
-                            <div ref={ref => this.description = ref} contentEditable="true" class="textarea"></div>
-                        </div>
-                    </div>
+                </div>  
+                    <Description redesc={this.props.redesc} save_desc={this.props.save_desc} card={this.props.card}/>
+                
                 </div> 
             </div>
         )

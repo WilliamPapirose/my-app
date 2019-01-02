@@ -1,9 +1,9 @@
 .card {
 	width: 280px;
 	background: rgb(94, 56, 116);
-	border-radius: 5px;
+	border-radius: 2px;
 	display: block;
-	margin: 10px auto;
+	margin: 7px auto;
 	color: #000;
 	padding: 8px;
 	text-align: center;

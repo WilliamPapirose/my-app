@@ -3,6 +3,7 @@ import './Column.css';
 import './Style.css';
 import Card from './Card.js';
 import AddForm from './AddForm.js';
+import ColumnName from './Name.js';
 
 class Column extends Component {
 	constructor(props) {
@@ -14,16 +15,14 @@ class Column extends Component {
 		  name: this.props.name,
 		  showed_form: "none",
 		};
-		this.handleSubmit = this.handleSubmit.bind(this);
 		this.delete_card = this.delete_card.bind(this);
 		this.add_card = this.add_card.bind(this);
 		this.save_cards = this.save_cards.bind(this);
+		this.rename = this.rename.bind(this);
 	}
-	handleSubmit(e) {
-        e.preventDefault();
-		if (this.columnName.innerHTML!=="")
-		this.setState({showed_form: "none", name: this.columnName.innerText});
-		this.props.save(this.columnName.innerText,this.props.id);
+	rename(val) {
+		this.setState({name: val})
+		this.props.save(val,this.props.id);
 	}
 	delete_card(id) {
 		let new_cards = this.state.cards;
@@ -49,21 +48,12 @@ class Column extends Component {
 	render() {
 		return (
 		<div class="column">
-			<div ref={ref => this.columnName = ref} onFocus={() => {
-					this.setState({showed_form: "block"})
-					}} contentEditable="true" class="textarea">{this.state.name}</div>
-				<div style={{display: this.state.showed_form,marginTop:"10px"}}>
-					<button class="button" onClick={this.handleSubmit}>Save</button>
-					<button class="button" onClick={() => {
-						this.columnName.innerHTML = this.state.name; 
-						this.setState({showed_form: "none"});
-					}}>Cancel</button>
-				</div>
+			<ColumnName user={''} author={''} name={this.state.name} rename={this.rename}/>
 			<AddForm add={this.add_card}/>
 			<div>	
 				{this.state.cards.map((card) => {
 					if (card !== null) return (
-					<Card name={card.name} id={card.id} author={card.author} column={this.state.name} del={this.delete_card} user={this.props.user} show_info={this.props.show_info} save={this.save_cards}/>
+					<Card name={card.name} id={card.id} author={card.author} column={this.state.name} column_id={this.props.id} del={this.delete_card} user={this.props.user} show_info={this.props.show_info} save={this.save_cards}/>
 					)
 					else return null;
 					})} 
