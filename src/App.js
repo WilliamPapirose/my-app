@@ -25,6 +25,7 @@ class App extends Component {
 		this.save_description = this.save_description.bind(this);
 		this.change_descr = this.change_descr.bind(this);
 		this.signUp = this.signUp.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
 	}
 	signUp(val) {
 		this.setState({user: val, name_form: "none"});
@@ -64,9 +65,16 @@ class App extends Component {
 		this.setState({columns: columns});
 		localStorage.setItem('columns', JSON.stringify(this.state.columns));
 	}
+	handleKeyUp(event) {
+        event.preventDefault();
+        const keyValue = event.key;
+        if (keyValue === "Escape") {
+            this.setState({showed_form: "none"});
+        }
+    }
 	render() {
 		return (
-		<header>
+		<header onKeyUp={this.handleKeyUp}>
 			<div style={{display: this.state.showed_form, position: "fixed", width:"100%", height:"100%"}}>
 				<CardInfo user={this.state.user} redesc={this.change_descr} hide={this.form_hide} card={this.state.card_info} save_desc={this.save_description}/>
 			</div>

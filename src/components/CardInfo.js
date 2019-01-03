@@ -6,18 +6,10 @@ import './Style.css';
 class CardInfo extends Component{
     constructor(props) {
         super(props);
-        this.handleKeyUp = this.handleKeyUp.bind(this);
-    }
-    handleKeyUp(event) {
-        event.preventDefault();
-        const keyValue = event.key;
-        if (keyValue === "Escape") {
-            this.props.hide();
-        }
     }
     render(){
         return (  
-            <div onKeyUp={this.handleKeyUp} class="fade_inf">
+            <div class="fade_inf">
                 <div class="popup">
                 <div class="head"><p class='author'>Author: {this.props.card.author}</p><p style={{margin:0}}>{this.props.card.name}</p>
                 <p class="column_name">{this.props.card.column}</p>

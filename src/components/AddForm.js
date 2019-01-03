@@ -33,7 +33,7 @@ class AddForm extends Component {
 			<div style={{display: this.state.showed_form}}>
 				<form onSubmit={this.handleSubmit}>
 					<p>
-						<input maxlength='42' ref={ref => this.input = ref} class="new_card_name" type="text" placeholder="Card Name" value={this.state.name} required="required" onChange={this.onChange}/>
+						<input autoFocus maxlength='42' ref={ref => this.input = ref} class="new_card_name" type="text" placeholder="Card Name" value={this.state.name} required="required" onChange={this.onChange}/>
 						<input class="button" type="submit" value="Create" />
 					</p>
 				</form>
