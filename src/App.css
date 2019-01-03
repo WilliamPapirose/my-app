@@ -8,6 +8,7 @@
   font-family: Dosis Bold, sans-serif;
   width: fit-content;
   margin: 0 auto;
+  padding-top: 25px;
 }
 
 .who {
@@ -59,9 +60,16 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.vbg {
-  background-color: rgb(31, 6, 29);
+.hat {
   position: fixed;
   width: 100%;
-  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.hat p {
+  font-family: Dosis Bold, sans-serif;
+  margin: auto; 
+  text-align: center;
+  margin-left: 5px;
 }
