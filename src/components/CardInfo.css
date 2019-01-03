@@ -64,7 +64,8 @@
     box-sizing: border-box;
 }
 
-.popup {
+.popup { 
+    margin-bottom: 50px;
     position: absolute;
     font-family: Dosis Bold, sans-serif;
     color: #fff;
