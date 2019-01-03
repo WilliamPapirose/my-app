@@ -3,16 +3,78 @@
     src: url(fonts/dosis-bold.ttf);
 }
 
+.info_popup {
+    width: 100%;
+    height: 100%;
+}
+
+.window {
+    padding: 0 2% 0 2%;
+}
+
+.comment_textarea {
+    font-family: Dosis Bold, sans-serif;
+    padding: 5px;
+    width: 90%;
+    margin: 0 auto;
+    height: fit-content;
+    min-height: 60px;
+	resize: none;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.2);
+	color: #fff;
+	font-size: 12px;
+	font-weight: 900;
+	border-radius: 2px;
+	text-align: center;
+	word-break: normal;
+    outline: none;
+    border: none;
+}
+
+.comments {
+    width: 45%;
+    float: right;
+    display: block;
+}
+
+.comment_text {
+    width: 90%;
+    float: right;
+    margin-right: 10px;
+}
+
+.comment_form {
+    width: 40%;
+    float: right;
+    display: block;
+}
+
+.comment {
+    float: right;
+    width: 90%;
+    background-color:  rgba(0, 0, 0, 0.6);
+    margin: 10px;
+    margin-left: 0;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: left;
+    word-break: break-all;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
 .popup {
+    position: absolute;
     font-family: Dosis Bold, sans-serif;
     color: #fff;
     font-size: 24px;
     text-align: center;
-	width: 70%;
-    height: 80%;
+    width: 96%;
+    height: max-content;
 	background-color: rgb(91, 42, 104);
     border-radius: 12px;
-    margin: 0 auto;
+    margin-top: 80px;
 }
 
 .popup .head {
@@ -31,6 +93,7 @@
 }
 
 .fade_inf {
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
@@ -69,6 +132,7 @@
 
 .description {
     width: 50%;
+    float: left;
 }
 
 .author {
@@ -76,7 +140,7 @@
     word-break: normal;
     float: left;
     margin: 0;
-    left: 15%;
+    left: 5%;
     color: rgba(0, 0, 0, 0.4);
     position: absolute;
 }

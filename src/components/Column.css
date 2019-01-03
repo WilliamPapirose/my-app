@@ -1,6 +1,5 @@
 .column {
 	width:310px;
-	float:left;
 	text-align: center;
 	margin: 12px;
 	border-radius: 5px;
@@ -8,6 +7,7 @@
 	color: #fff;
 	font-size: 18px;
 	font-weight: 900;
+	float: left;
 }
 
 .column p {

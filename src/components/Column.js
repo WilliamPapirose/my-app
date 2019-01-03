@@ -53,7 +53,7 @@ class Column extends Component {
 			<div>	
 				{this.state.cards.map((card) => {
 					if (card !== null) return (
-					<Card name={card.name} id={card.id} author={card.author} column={this.state.name} column_id={this.props.id} del={this.delete_card} user={this.props.user} show_info={this.props.show_info} save={this.save_cards}/>
+					<Card comments={this.props.comments[this.props.id]} name={card.name} id={card.id} author={card.author} column={this.state.name} column_id={this.props.id} del={this.delete_card} user={this.props.user} show_info={this.props.show_info} save={this.save_cards}/>
 					)
 					else return null;
 					})} 
