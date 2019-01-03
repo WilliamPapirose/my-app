@@ -24,6 +24,7 @@ class App extends Component {
 		this.save_columns = this.save_columns.bind(this);
 		this.save_description = this.save_description.bind(this);
 		this.change_descr = this.change_descr.bind(this);
+		this.add_descr = this.add_descr.bind(this);
 		this.signUp = this.signUp.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
 	}
@@ -54,10 +55,18 @@ class App extends Component {
 		card_info.editable = (card_info.author === this.state.user) ? true : false;
 		card_info.description = (this.state.descriptions[column_id][id] === undefined) ? '' : this.state.descriptions[column_id][id];
 		card_info.reserve = card_info.description;
+		card_info.with_desc = (card_info.description !== '') ? true : false; 
 		this.setState({card_info: card_info, showed_form: this.state.showed_form==="none" ? "block" : "none"});
 	}
+	add_descr(val){
+		let card_info = this.state.card_info;
+		card_info.with_desc = val;
+		this.setState({card_info: card_info});
+	}
 	form_hide() {
-		this.setState({showed_form: this.state.showed_form==="none" ? "block" : "none"});
+		let card_info = this.state.card_info;
+		card_info.description = '';
+		this.setState({card_info: card_info, showed_form: "none"});
 	}
 	save_columns(rename,id){
 		let columns = this.state.columns;
@@ -69,14 +78,14 @@ class App extends Component {
         event.preventDefault();
         const keyValue = event.key;
         if (keyValue === "Escape") {
-            this.setState({showed_form: "none"});
+            this.form_hide();
         }
     }
 	render() {
 		return (
 		<header onKeyUp={this.handleKeyUp}>
 			<div style={{display: this.state.showed_form, position: "fixed", width:"100%", height:"100%"}}>
-				<CardInfo user={this.state.user} redesc={this.change_descr} hide={this.form_hide} card={this.state.card_info} save_desc={this.save_description}/>
+				<CardInfo user={this.state.user} add_desc={this.add_descr} redesc={this.change_descr} hide={this.form_hide} card={this.state.card_info} save_desc={this.save_description}/>
 			</div>
 			<div class="fade" style={{display: this.state.name_form}}>		
 				<NameForm signUp={this.signUp} />

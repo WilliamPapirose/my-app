@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import './CardInfo.css';
 import Description from './Description.js';
-import './Style.css';
 
 class CardInfo extends Component{
     constructor(props) {
@@ -22,8 +20,14 @@ class CardInfo extends Component{
                         }}>+</button>
                     </div>
                 </div>  
-                    <Description redesc={this.props.redesc} save_desc={this.props.save_desc} card={this.props.card}/>
-                
+                    <div style={{display: (this.props.card.with_desc) ? 'block' : 'none'}}>
+                        <Description add_desc={this.props.add_desc} redesc={this.props.redesc} save_desc={this.props.save_desc} card={this.props.card}/>
+                    </div> 
+                    <div class="description" style={{display: (this.props.card.with_desc || !this.props.card.editable) ? 'none' : 'block'}}>
+                        <button class="button plus" onClick={() => {
+                            this.props.add_desc(true);
+                        }}>Add description</button>
+                    </div> 
                 </div> 
             </div>
         )

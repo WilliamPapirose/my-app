@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './Card.css';
-import './Style.css';
 import CardName from './Name.js';
 
 class Card extends Component {
