@@ -23,7 +23,7 @@ class AddForm extends Component {
 	}
 	focused(){
 		this.setState({showed_form: "block"});
-		this.input.focus();
+		if (this.input !== document.activeElement) this.input.focus();
 	}
 	render() {
 		return (
@@ -32,7 +32,7 @@ class AddForm extends Component {
 			<div style={{display: this.state.showed_form}}>
 				<form onSubmit={this.handleSubmit}>
 					<p>
-						<input autoFocus maxlength='42' ref={ref => this.input = ref} class="new_card_name" type="text" placeholder="Card Name" value={this.state.name} required="required" onChange={this.onChange}/>
+						<input maxlength='42' ref={ref => this.input = ref} class="new_card_name" type="text" placeholder="Card Name" value={this.state.name} required="required" onChange={this.onChange}/>
 						<input class="button" type="submit" value="Create" />
 					</p>
 				</form>

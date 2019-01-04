@@ -3,6 +3,20 @@ import Description from './Description.js';
 import Comment from './Comment.js';
 
 class CardInfo extends Component{
+    constructor(props) {
+		super(props);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+    }
+	handleKeyDown(event) {
+        const keyValue = event.key;
+        if (keyValue === "Enter") {
+            event.preventDefault();
+            if (this.comment.value!=='') {
+                this.props.add_comment(this.props.card.column_id,this.props.card.id,this.props.card.comments.length,this.comment.value,this.props.user);
+                this.comment.value='';
+            }
+        }
+    }
     render(){
         return (  
             <div>
@@ -30,7 +44,7 @@ class CardInfo extends Component{
                         </div> 
                         <div class='comments'>
                         <div class=''>
-                            <textarea class='textarea comment_text' ref={ref => this.comment = ref}></textarea>
+                            <textarea onKeyDown={this.handleKeyDown} class='textarea comment_text' ref={ref => this.comment = ref}></textarea>
                             <button class="button plus" style={{float: "right"}}  onClick={() => {
                                 if (this.comment.value!=='') {
                             this.props.add_comment(this.props.card.column_id,this.props.card.id,this.props.card.comments.length,this.comment.value,this.props.user);

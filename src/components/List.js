@@ -119,7 +119,7 @@ class List extends Component {
 				<div style={{display: this.state.showed_form}} class="info_popup">
 					<CardInfo user={this.state.user} edit={this.edit_comment} add_comment={this.add_comment} delete_comment={this.delete_comment} add_desc={this.add_descr} redesc={this.change_descr} hide={this.form_hide} card={this.state.card_info} save_desc={this.save_description}/>
 				</div>
-				<div class="fade" style={{display: this.state.name_form}}>		
+				<div onKeyDown={(e)=>{ if (e.key === "Tab") {e.preventDefault()}}} class="fade" style={{display: this.state.name_form}}>		
 					<NameForm signUp={this.signUp} />
 				</div>
 				<div class="App">
