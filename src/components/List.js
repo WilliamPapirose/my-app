@@ -32,6 +32,7 @@ class List extends Component {
 		this.handleKeyUp = this.handleKeyUp.bind(this);
 		this.add_comment = this.add_comment.bind(this);
 		this.delete_comment = this.delete_comment.bind(this);
+		this.edit_comment = this.edit_comment.bind(this);
 	}
 	signUp(val) {
 		this.setState({user: val, name_form: "none"});
@@ -60,6 +61,15 @@ class List extends Component {
 		card_info.with_desc = val;
 		this.setState({card_info: card_info});
 	}
+	edit_comment(column_id,card_id,id,comment,author) {
+		let comments = this.state.comments;
+		let card_info = this.state.card_info;
+		if (comments[column_id][card_id] === undefined) comments[column_id][card_id] = [];
+		comments[column_id][card_id][id]={text: comment, author: author,  id: id};
+		card_info.comments[id] = {text: comment, author: author,  id: id};
+		this.setState({card_info: card_info, comments: comments});
+		localStorage.setItem('comments', JSON.stringify(this.state.comments));
+	}
 	add_comment(column_id,card_id,id,comment,author){
 		let comments = this.state.comments;
 		let card_info = this.state.card_info;
@@ -82,9 +92,9 @@ class List extends Component {
 		card_info.name = name;
 		card_info.column = column;
 		card_info.author = author;
-		card_info.comments = (this.state.comments[column_id][id] === undefined) ? [] : this.state.comments[column_id][id];
 		card_info.column_id = column_id;
 		card_info.id = id;
+		card_info.comments = (this.state.comments[column_id][id] === undefined) ? [] : this.state.comments[column_id][id];
 		card_info.editable = (card_info.author === this.state.user) ? true : false;
 		card_info.description = (this.state.descriptions[column_id][id] === undefined) ? '' : this.state.descriptions[column_id][id];
 		card_info.reserve = card_info.description;
@@ -108,7 +118,7 @@ class List extends Component {
 			<header onKeyUp={this.handleKeyUp}>
 				<Hat user={this.state.user}/>
 				<div style={{display: this.state.showed_form}} class="info_popup">
-					<CardInfo  user={this.state.user} add_comment={this.add_comment} delete_comment={this.delete_comment} add_desc={this.add_descr} redesc={this.change_descr} hide={this.form_hide} card={this.state.card_info} save_desc={this.save_description}/>
+					<CardInfo user={this.state.user} edit={this.edit_comment} add_comment={this.add_comment} delete_comment={this.delete_comment} add_desc={this.add_descr} redesc={this.change_descr} hide={this.form_hide} card={this.state.card_info} save_desc={this.save_description}/>
 				</div>
 				<div class="fade" style={{display: this.state.name_form}}>		
 					<NameForm signUp={this.signUp} />

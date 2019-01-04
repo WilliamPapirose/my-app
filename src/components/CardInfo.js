@@ -3,13 +3,6 @@ import Description from './Description.js';
 import Comment from './Comment.js';
 
 class CardInfo extends Component{
-    constructor(props) {
-        super(props);
-        let comments = (this.props.card.comments === undefined) ? [] : this.props.card.comments = undefined;
-		this.state = {
-            comments: comments,
-		};
-	}
     render(){
         return (  
             <div>
@@ -48,7 +41,7 @@ class CardInfo extends Component{
                             {(this.props.card.comments === undefined) ? [] : this.props.card.comments.map((comment)=>{
                             if (comment !== null) 
                                 return (
-                                <Comment edit={this.props.add_comment} user={this.props.user} author={comment.author} text={comment.text} id={comment.id} card={this.props.card} delete={this.props.delete_comment}/> 
+                                <Comment edit={this.props.edit} add={this.props.add_comment} user={this.props.user} author={comment.author} text={comment.text} id={comment.id} card={this.props.card} delete={this.props.delete_comment}/> 
                             ); else return null})}
                         </div>
                     </div> 
