@@ -10,7 +10,7 @@ class List extends Component {
 		let descriptions = JSON.parse(localStorage.getItem('descr'));
 		if (descriptions === null) descriptions = [[],[],[],[]];
 		let comments = JSON.parse(localStorage.getItem('comments'));
-		if (comments === null) comments = [[[[]]],[[[]]],[[[]]],[[[]]]];
+		if (comments === null) comments = [[[]],[[]],[[]],[[]]];
 		let columns = JSON.parse(localStorage.getItem('columns'));	
 		if (columns === null) columns = [{name:'TODO',id:0},{name:'In Progress',id:1},{name:'Testing',id:2},{name:'Done',id:3}];
 		this.state = {
