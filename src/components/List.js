@@ -68,7 +68,6 @@ class List extends Component {
 		comments[column_id][card_id][id]={text: comment, author: author,  id: id};
 		card_info.comments[id] = {text: comment, author: author,  id: id};
 		this.setState({card_info: card_info, comments: comments});
-		localStorage.setItem('comments', JSON.stringify(this.state.comments));
 	}
 	add_comment(column_id,card_id,id,comment,author){
 		let comments = this.state.comments;
