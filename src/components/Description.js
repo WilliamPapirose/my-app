@@ -30,7 +30,11 @@ class Description extends Component{
     }
     render(){
         return ( 
-            <div onFocus={()=>{this.setState({edit: true})}} class="description">
+            <div onFocus={()=>{
+                if (this.props.editable)
+                this.setState({edit: true})
+                else this.description.blur();
+                }} class="description">
                 <textarea onKeyDown={this.handleKeyDown} placeholder='Description' onChange={this.onChange} value={this.props.card.description} ref={ref => this.description = ref} class="textarea"></textarea>
                 <div class="author_buttons" style={{display: (this.props.card.editable) ? "block" : "none"}}>
                     <div class="with_desc" style={{display: (this.state.edit) ? "block" : "none"}}>
