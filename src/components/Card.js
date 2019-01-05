@@ -19,7 +19,7 @@ class Card extends Component {
 			<div class="card"> 
 				<div style={{height: "22px"}}>
 					<p style={{float: "left",}}>Author: {this.props.author}</p>
-					<p style={{float: "right"}}>Comments: {(this.props.comments[this.props.id] === undefined) ? 0 : this.props.comments[this.props.id].filter(function(x){return x!==null}).length}
+					<p style={{float: "right"}}>Comments: {(this.props.comments[this.props.id] === undefined || this.props.comments[this.props.id] === null) ? 0 : this.props.comments[this.props.id].filter(function(x){return x!==null}).length}
 				</p>
 				</div>
 				<CardName user={this.props.user} author={this.props.author} name={this.state.name} rename={this.rename} />

@@ -117,7 +117,7 @@ class Board extends Component {
 			<header onKeyUp={this.handleKeyUp}>
 				<Hat user={this.state.user} signUp={this.signUp}/>
 				<div style={{display: this.state.showed_form}} class="info_popup">
-					<CardInfo user={this.state.user} edit={this.edit_comment} add_comment={this.add_comment} delete_comment={this.delete_comment} add_desc={this.add_descr} redesc={this.change_descr} hide={this.form_hide} card={this.state.card_info} save_desc={this.save_description}/>
+					<CardInfo onKeyUp={this.handleKeyUp} user={this.state.user} edit={this.edit_comment} add_comment={this.add_comment} delete_comment={this.delete_comment} add_desc={this.add_descr} redesc={this.change_descr} hide={this.form_hide} card={this.state.card_info} save_desc={this.save_description}/>
 				</div>
 				<div onKeyDown={(e)=>{ if (e.key === "Tab") {e.preventDefault()}}} class="fade" style={{display: this.state.user===''? 'block':'none'}}>		
 					<NameForm signUp={this.signUp} />
@@ -125,7 +125,7 @@ class Board extends Component {
 				<div class="App">
 					{this.state.columns.map((column) => {
 					return (
-						<Column comments={this.state.comments} name={column.name} id={column.id} user={this.state.user} show_info={this.form_show} save={this.save_columns}/>
+						<Column ref={child => {this.child = child}} comments={this.state.comments} name={column.name} id={column.id} user={this.state.user} show_info={this.form_show} save={this.save_columns}/>
 					)})}
 				</div>
 			</header>

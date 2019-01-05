@@ -8,6 +8,10 @@ class NameForm extends Component {
         }
 		this.onChange = this.onChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.a = this.a.bind(this);
+    }
+    a() {
+        alert(2);
     }
 	onChange(e) {
         const val = e.target.value;
