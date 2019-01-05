@@ -31,7 +31,7 @@ class Description extends Component{
     render(){
         return ( 
             <div onFocus={()=>{
-                if (this.props.editable)
+                if (this.props.card.editable)
                 this.setState({edit: true})
                 else this.description.blur();
                 }} class="description">
