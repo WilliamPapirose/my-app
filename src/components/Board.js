@@ -4,7 +4,7 @@ import CardInfo from './CardInfo.js';
 import NameForm from './NameForm.js';
 import Hat from './Hat.js';
 
-class List extends Component {
+class Board extends Component {
 	constructor() {
 		super();
 		let descriptions = JSON.parse(localStorage.getItem('descr'));
@@ -35,7 +35,7 @@ class List extends Component {
 		this.edit_comment = this.edit_comment.bind(this);
 	}
 	signUp(val) {
-		this.setState({user: val, name_form: "none"});
+		this.setState({user: val});
 	}
 	save_columns(rename,id){
 		let columns = this.state.columns;
@@ -115,11 +115,11 @@ class List extends Component {
 	render() {
 		return (
 			<header onKeyUp={this.handleKeyUp}>
-				<Hat user={this.state.user}/>
+				<Hat user={this.state.user} signUp={this.signUp}/>
 				<div style={{display: this.state.showed_form}} class="info_popup">
 					<CardInfo user={this.state.user} edit={this.edit_comment} add_comment={this.add_comment} delete_comment={this.delete_comment} add_desc={this.add_descr} redesc={this.change_descr} hide={this.form_hide} card={this.state.card_info} save_desc={this.save_description}/>
 				</div>
-				<div onKeyDown={(e)=>{ if (e.key === "Tab") {e.preventDefault()}}} class="fade" style={{display: this.state.name_form}}>		
+				<div onKeyDown={(e)=>{ if (e.key === "Tab") {e.preventDefault()}}} class="fade" style={{display: this.state.user===''? 'block':'none'}}>		
 					<NameForm signUp={this.signUp} />
 				</div>
 				<div class="App">
@@ -133,4 +133,4 @@ class List extends Component {
 	}
 }
 
-export default List;
+export default Board;

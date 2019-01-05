@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import List from './components/List.js';
+import Board from './components/Board.js';
 
 class App extends Component {
 	render() {
 		return (
 		<header>
-			<List/>
+			<Board/>
 		</header>
 		)
 	}
