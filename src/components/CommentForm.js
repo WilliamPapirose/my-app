@@ -27,7 +27,7 @@ class CommentForm extends Component{
                             this.comment.value='';
                             }}}>Add comment</button>
                 </div>
-                    {(this.props.card.comments === undefined) ? [] : this.props.card.comments.map((comment)=>{
+                    {(this.props.card.comments === undefined || this.props.card.comments === null) ? [] : this.props.card.comments.map((comment)=>{
                     if (comment !== null) 
                     return (
                     <Comment edit={this.props.edit} add={this.props.add_comment} user={this.props.user} author={comment.author} text={comment.text} id={comment.id} card={this.props.card} delete={this.props.delete}/> 

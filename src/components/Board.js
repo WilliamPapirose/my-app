@@ -64,7 +64,7 @@ class Board extends Component {
 	edit_comment(column_id,card_id,id,comment,author) {
 		let comments = this.state.comments;
 		let card_info = this.state.card_info;
-		if (comments[column_id][card_id] === undefined) comments[column_id][card_id] = [];
+		if (comments[column_id][card_id] === undefined || comments[column_id][card_id] === null) comments[column_id][card_id] = [];
 		comments[column_id][card_id][id]={text: comment, author: author,  id: id};
 		card_info.comments[id] = {text: comment, author: author,  id: id};
 		this.setState({card_info: card_info, comments: comments});
@@ -72,7 +72,7 @@ class Board extends Component {
 	add_comment(column_id,card_id,id,comment,author){
 		let comments = this.state.comments;
 		let card_info = this.state.card_info;
-		if (comments[column_id][card_id] === undefined) comments[column_id][card_id] = [];
+		if (comments[column_id][card_id] === undefined || comments[column_id][card_id] === null) comments[column_id][card_id] = [];
 		comments[column_id][card_id][id]={text: comment, author: author,  id: id};
 		card_info.comments[id] = {text: comment, author: author,  id: id};
 		this.setState({card_info: card_info, comments: comments});
@@ -93,9 +93,9 @@ class Board extends Component {
 		card_info.author = author;
 		card_info.column_id = column_id;
 		card_info.id = id;
-		card_info.comments = (this.state.comments[column_id][id] === undefined) ? [] : this.state.comments[column_id][id];
+		card_info.comments = (this.state.comments[column_id][id] === undefined || this.state.comments[column_id][id] === null) ? [] : this.state.comments[column_id][id];
 		card_info.editable = (card_info.author === this.state.user) ? true : false;
-		card_info.description = (this.state.descriptions[column_id][id] === undefined) ? '' : this.state.descriptions[column_id][id];
+		card_info.description = (this.state.descriptions[column_id][id] === undefined || this.state.descriptions[column_id][id] === null) ? '' : this.state.descriptions[column_id][id];
 		card_info.reserve = card_info.description;
 		card_info.with_desc = (card_info.description !== '') ? true : false; 
 		this.setState({card_info: card_info, showed_form: this.state.showed_form==="none" ? "block" : "none"});
