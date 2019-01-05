@@ -33,7 +33,7 @@
 }
 
 .name {
-	word-break: break-all;
+	word-break: normal;
 	font-family: Dosis Bold, sans-serif;
 	padding: 2px;
 	box-sizing: border-box; 
