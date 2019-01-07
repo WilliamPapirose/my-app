@@ -21,6 +21,10 @@ class Board extends Component {
     };
   }
 
+  componentDidMount() {
+    window.addEventListener('keydown', this.closePopupByEsc);
+  }
+
   signUp = (user) => {
     this.setState({ user });
     window.localStorage.setItem('lastUserName', user);
@@ -105,7 +109,11 @@ class Board extends Component {
     this.setState({ cardInfo, isInfoShowed: 'none' });
   }
 
-  handleKeyUp(event) {
+  componentDidUnmont = () => {
+    window.removeEventListener('keydown', this.closePopupByEsc);
+  }
+
+  closePopupByEsc = (event) => {
     event.preventDefault();
     const keyValue = event.key;
     if (keyValue === 'Escape') {

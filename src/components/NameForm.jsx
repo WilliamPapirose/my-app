@@ -9,6 +9,14 @@ class NameForm extends Component {
     };
   }
 
+  componentDidMount() {
+    this.input.focus();
+  }
+
+  componentDidUpdate() {
+    this.input.focus();
+  }
+
   onChange = (e) => {
     const user = e.target.value;
     this.setState({ user });
@@ -19,7 +27,7 @@ class NameForm extends Component {
     const { user } = this.state;
     e.preventDefault();
     signUp(user);
-    this.input.value = '';
+    this.setState({ user: '' });
   }
 
   render() {
@@ -29,7 +37,7 @@ class NameForm extends Component {
         <p>Hi, what`s your name?</p>
         <form onSubmit={this.handleSubmit}>
           <p>
-            <input ref={ref => this.input = ref} autoFocus className="new_card_name" type="text" maxLength="10" placeholder="Your Name" value={user} required="required" onChange={this.onChange} />
+            <input ref={ref => this.input = ref} className="new_card_name" type="text" maxLength="10" placeholder="Your Name" value={user} required="required" onChange={this.onChange} />
             <input className="button" type="submit" value="Start" />
           </p>
         </form>

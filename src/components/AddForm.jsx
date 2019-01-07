@@ -10,6 +10,13 @@ class AddForm extends Component {
     };
   }
 
+  componentDidUpdate() {
+    const { isFormShowed } = this.state;
+    if (isFormShowed === 'block') {
+      this.input.focus();
+    }
+  }
+
   onChange = (e) => {
     const name = e.target.value;
     this.setState({ name });
