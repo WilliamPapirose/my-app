@@ -10,6 +10,7 @@
 
 .window {
     padding: 0 2% 0 2%;
+    height: 60%;
 }
 
 .comment_textarea {
@@ -33,12 +34,14 @@
 }
 
 .comments {
+    position: relative;
     width: 45%;
     float: right;
     display: block;
 }
 
 .comment_text {
+    height: 10%;
     width: 90%;
     float: right;
     margin-right: 10px;
@@ -48,6 +51,12 @@
     width: 40%;
     float: right;
     display: block;
+}
+
+.writerCommnets {
+    float: right;
+    margin: 0;
+    width: 45%;
 }
 
 .comment {
@@ -64,11 +73,14 @@
 }
 
 .information {
-    overflow: auto;
-    max-height: 500px;
+    float: right;
+    margin-top: 11px;
+    width: 45%;
+    padding-bottom: 50px;
+    height: 1;
 }
 
-.popup { 
+.popup {
     margin-bottom: 50px;
     position: fixed;
     font-family: Dosis Bold, sans-serif;
@@ -76,11 +88,11 @@
     font-size: 24px;
     text-align: center;
     width: 96%;
-    height: 100%;
-    max-height: 600px;
+    height: 90%;
 	background-color: rgb(91, 42, 104);
     border-radius: 12px;
     margin-top: 30px;
+    overflow-y: scroll;
 }
 
 .popup .head {

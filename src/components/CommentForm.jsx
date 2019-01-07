@@ -22,8 +22,8 @@ const CommentForm = ({
 }) => {
   let comment;
   return (
-    <div className="comments">
-      <div>
+    <div>
+      <div className="writerCommnets">
         <textarea
           style={{ height: '120px' }}
           onKeyDown={(event) => {
@@ -46,22 +46,24 @@ const CommentForm = ({
           Add comment
         </button>
       </div>
-      {(card.comments == null) ? [] : card.comments.map((comment)=>{
-        if (comment !== null) {
-          return (
-            <Comment
-              edit={edit}
-              add={addComment}
-              user={user}
-              author={comment.author}
-              text={comment.text}
-              id={comment.id}
-              card={card}
-              deleteComment={deleteComment}
-            />
-          );
-        } return null;
-      })}
+      <div className="information">
+        {(card.comments == null) ? [] : card.comments.map((comment)=>{
+          if (comment !== null) {
+            return (
+              <Comment
+                edit={edit}
+                add={addComment}
+                user={user}
+                author={comment.author}
+                text={comment.text}
+                id={comment.id}
+                card={card}
+                deleteComment={deleteComment}
+              />
+            );
+          } return null;
+        })}
+      </div>
     </div>
   );
 };
