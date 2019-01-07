@@ -74,28 +74,30 @@ class Comment extends Component {
         >
           {text}
         </div>
-        <div style={{ marginTop: '5px', display: (author === user) ? 'block' : 'none' }}>
-          <button
-            type="button"
-            style={{ float: 'right' }}
-            className="button"
-            onClick={() => {
-              deleteComment(card.columnId, card.id, id);
-            }}
-          >
-              delete
-          </button>
-          <button
-            type="button"
-            style={{ float: 'right' }}
-            className="button"
-            onClick={() => {
-              this.handleSubmit();
-            }}
-          >
-            {(isEditable) ? 'Save' : 'Edit'}
-          </button>
-        </div>
+        {(author === user) && (
+          <div style={{ marginTop: '5px'}}>
+            <button
+              type="button"
+              style={{ float: 'right' }}
+              className="button"
+              onClick={() => {
+                deleteComment(card.columnId, card.id, id);
+              }}
+            >
+                delete
+            </button>
+            <button
+              type="button"
+              style={{ float: 'right' }}
+              className="button"
+              onClick={() => {
+                this.handleSubmit();
+              }}
+            >
+              {(isEditable) ? 'Save' : 'Edit'}
+            </button>
+          </div>
+        )}
         <div style={{
           marginTop: '5px', marginLeft: '5px', float: 'left', wordBreak: 'normal', maxWidth: '60px', fontSize: '14px',
         }}

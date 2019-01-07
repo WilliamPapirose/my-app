@@ -53,7 +53,7 @@ class Board extends Component {
 
   addDescription = (val) => {
     const { cardInfo } = this.state;
-    cardInfo.withDescriprion = val;
+    cardInfo.withDescription = val;
     this.setState({ cardInfo });
   }
 
@@ -99,7 +99,7 @@ class Board extends Component {
     cardInfo.editable = (cardInfo.author === user);
     cardInfo.description = (descriptions[columnId][id] == null) ? '' : descriptions[columnId][id];
     cardInfo.reserve = cardInfo.description;
-    cardInfo.withDescriprion = (cardInfo.description !== '');
+    cardInfo.withDescription = (cardInfo.description !== '');
     this.setState({ cardInfo, isInfoShowed: (isInfoShowed === false) });
   }
 

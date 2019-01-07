@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './addForm.css';
 
 class AddForm extends Component {
@@ -6,13 +7,13 @@ class AddForm extends Component {
     super(props);
     this.state = {
       name: '',
-      isFormShowed: 'none',
+      isFormShowed: false,
     };
   }
 
   componentDidUpdate() {
     const { isFormShowed } = this.state;
-    if (isFormShowed === 'block') {
+    if (isFormShowed) {
       this.input.focus();
     }
   }
@@ -27,36 +28,42 @@ class AddForm extends Component {
     const { add } = this.props;
     const { name } = this.state;
     add(name);
-    this.setState({ name: '', isFormShowed: 'none' });
+    this.setState({ name: '', isFormShowed: false });
   }
 
   render() {
     const { isFormShowed, name } = this.state;
     return (
       <div className="addform">
-        <button type="button" className="button plus" onClick={() => {this.setState({ isFormShowed: 'block' }); }}>+</button>
-        <div style={{ display: isFormShowed }}>
-          <form onSubmit={this.handleSubmit}>
-            <p>
-              <input
-                maxLength="42"
-                ref={ref => this.input = ref}
-                className="new_card_name"
-                type="text"
-                placeholder="Card Name"
-                value={name}
-                required="required"
-                onChange={this.onChange}/>
-              <input className="button" type="submit" value="Create" />
-            </p>
-          </form>
-          <button type="button" className="button" onClick={() => { this.setState({ name: '', isFormShowed: 'none' }); }}>
-            Cancel
-          </button>
-        </div>
+        <button type="button" className="button plus" onClick={() => { this.setState({ isFormShowed: true }); }}>+</button>
+        {isFormShowed && (
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <p>
+                <input
+                  maxLength="42"
+                  ref={ref => this.input = ref}
+                  className="new_card_name"
+                  type="text"
+                  placeholder="Card Name"
+                  value={name}
+                  required="required"
+                  onChange={this.onChange}/>
+                <input className="button" type="submit" value="Create" />
+              </p>
+            </form>
+            <button type="button" className="button" onClick={() => { this.setState({ name: '', isFormShowed: false }); }}>
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
     );
   }
 }
+
+AddForm.propTypes = {
+  add: PropTypes.func.isRequired,
+};
 
 export default AddForm;

@@ -59,8 +59,8 @@ class Description extends Component {
           ref={ref => this.description = ref}
           className="textarea"
         />
-        <div className="author_buttons" style={{ display: (card.editable) ? 'block' : 'none' }}>
-          <div className="with_desc" style={{ display: (edit) ? 'block' : 'none' }}>
+        {(card.editable && edit) && (
+          <div className="author_buttons with_desc">
             <button type="button" className="button" onClick={this.handleSubmit}>Save</button>
             <button
               type="button"
@@ -87,7 +87,7 @@ class Description extends Component {
               Delete description
             </button>
           </div>
-        </div>
+        )}
       </div>
     );
   }

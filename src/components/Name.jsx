@@ -71,24 +71,26 @@ class Name extends Component {
         >
           {name}
         </div>
-        <div style={{ display: isFormShowed ? 'block' : 'none', marginTop: '10px' }}>
-          <div style={{ color: countColor }}>
-            {length}
-            /
-            {maxLength}
+        {isFormShowed && (
+          <div style={{ marginTop: '10px' }}>
+            <div style={{ color: countColor }}>
+              {length}
+              /
+              {maxLength}
+            </div>
+            <button type="button" className="button" onClick={this.handleSubmit}>Save</button>
+            <button
+              type="button"
+              className="button"
+              onClick={() => {
+                this.Name.innerHTML = name; 
+                this.setState({ isFormShowed: false, length: name.length });
+              }}
+            >
+              Cancel
+            </button>
           </div>
-          <button type="button" className="button" onClick={this.handleSubmit}>Save</button>
-          <button
-            type="button"
-            className="button"
-            onClick={() => {
-              this.Name.innerHTML = name; 
-              this.setState({ isFormShowed: false, length: name.length });
-            }}
-          >
-            Cancel
-          </button>
-        </div>
+        )}
       </div>
     );
   }
