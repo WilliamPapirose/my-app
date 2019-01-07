@@ -23,10 +23,10 @@ class NameForm extends Component {
   }
 
   handleSubmit = (e) => {
-    const { signUp } = this.props;
+    const { signIn } = this.props;
     const { user } = this.state;
     e.preventDefault();
-    signUp(user);
+    signIn(user);
     this.setState({ user: '' });
   }
 
@@ -47,7 +47,7 @@ class NameForm extends Component {
 }
 
 NameForm.propTypes = {
-  signUp: PropTypes.func.isRequired,
+  signIn: PropTypes.func.isRequired,
 };
 
 export default NameForm;

@@ -15,7 +15,7 @@ class Board extends Component {
       columns,
       user,
       cardInfo: {},
-      isInfoShowed: 'none',
+      isInfoShowed: false,
       descriptions,
       comments,
     };
@@ -25,7 +25,7 @@ class Board extends Component {
     window.addEventListener('keydown', this.closePopupByEsc);
   }
 
-  signUp = (user) => {
+  signIn = (user) => {
     this.setState({ user });
     window.localStorage.setItem('lastUserName', user);
   }
@@ -100,13 +100,13 @@ class Board extends Component {
     cardInfo.description = (descriptions[columnId][id] == null) ? '' : descriptions[columnId][id];
     cardInfo.reserve = cardInfo.description;
     cardInfo.withDescriprion = (cardInfo.description !== '');
-    this.setState({ cardInfo, isInfoShowed: (isInfoShowed === 'none') ? 'block' : 'none' });
+    this.setState({ cardInfo, isInfoShowed: (isInfoShowed === false) });
   }
 
   hideForm = () => {
     const { cardInfo } = this.state;
     cardInfo.description = '';
-    this.setState({ cardInfo, isInfoShowed: 'none' });
+    this.setState({ cardInfo, isInfoShowed: false });
   }
 
   componentDidUnmont = () => {
@@ -114,9 +114,9 @@ class Board extends Component {
   }
 
   closePopupByEsc = (event) => {
-    event.preventDefault();
     const keyValue = event.key;
     if (keyValue === 'Escape') {
+      event.preventDefault();
       this.hideForm();
     }
   }
@@ -131,23 +131,27 @@ class Board extends Component {
     } = this.state;
     return (
       <header>
-        <Hat user={user} signUp={this.signUp} />
-        <div style={{ display: isInfoShowed }} className="info_popup">
-          <CardInfo
-            user={user}
-            editComment={this.editComment}
-            addComment={this.addComment}
-            deleteComment={this.deleteComment}
-            addDescription={this.addDescription}
-            changeDescription={this.changeDescription}
-            hide={this.hideForm}
-            card={cardInfo}
-            saveDescription={this.saveDescription}
-          />
-        </div>
-        <div role="presentation" onKeyDown={(e) => { if (e.key === 'Tab') { e.preventDefault(); } }} className="fade" style={{ display: user === '' ? 'block' : 'none' }}>
-          <NameForm signUp={this.signUp} />
-        </div>
+        <Hat user={user} signIn={this.signIn} />
+        {isInfoShowed && (
+          <div className="info_popup">
+            <CardInfo
+              user={user}
+              editComment={this.editComment}
+              addComment={this.addComment}
+              deleteComment={this.deleteComment}
+              addDescription={this.addDescription}
+              changeDescription={this.changeDescription}
+              hide={this.hideForm}
+              card={cardInfo}
+              saveDescription={this.saveDescription}
+            />
+          </div>
+        )}
+        {user === '' && (
+          <div role="presentation" onKeyDown={(e) => { if (e.key === 'Tab') { e.preventDefault(); } }} className="fade">
+            <NameForm signIn={this.signIn} />
+          </div>
+        )}
         <div className="App">
           {columns.map(column => (
             <Column
