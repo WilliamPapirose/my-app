@@ -38,36 +38,38 @@ const CardInfo = ({
             </button>
           </div>
         </div>
-        {card.withDescription && (
-          <div>
-            <Description
-              addDescription={addDescription}
-              changeDescription={changeDescription}
-              saveDescription={saveDescription}
-              card={card}
-            />
-          </div>
-        )}
-        {(!card.withDescription && card.editable) && (
-          <div className="description">
-            <button
-              type="button"
-              className="button plus"
-              onClick={() => {
-                addDescription(true);
-              }}
-            >
-              Add description
-            </button>
-          </div>
-        )}
-        <CommentForm
-          user={user}
-          card={card}
-          addComment={addComment}
-          edit={editComment}
-          deleteComment={deleteComment}
-        />
+        <div className="information">
+          {card.withDescription && (
+            <div>
+              <Description
+                addDescription={addDescription}
+                changeDescription={changeDescription}
+                saveDescription={saveDescription}
+                card={card}
+              />
+            </div>
+          )}
+          {(!card.withDescription && card.editable) && (
+            <div className="description">
+              <button
+                type="button"
+                className="button plus"
+                onClick={() => {
+                  addDescription(true);
+                }}
+              >
+                Add description
+              </button>
+            </div>
+          )}
+          <CommentForm
+            user={user}
+            card={card}
+            addComment={addComment}
+            edit={editComment}
+            deleteComment={deleteComment}
+          />
+        </div>
       </div>
     </div>
   </div>

@@ -3,6 +3,38 @@
   src: url(fonts/dosis-bold.ttf);
 }
 
+:-webkit-scrollbar-button {
+  background-image:url('');
+  background-repeat:no-repeat;
+  width:5px;
+  height:0px
+  }
+  
+  ::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0px;
+  border-radius: 5px;
+  background-color:#7f548b;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover{
+  background-color:#7e569f;
+  }
+  
+  ::-webkit-resizer{
+  background-image:url('');
+  background-repeat:no-repeat;
+  width:4px;
+  height:0px
+  }
+  
+  ::-webkit-scrollbar{
+  width: 15px;
+  }
+
 .App {
   text-align: center;
   font-family: Dosis Bold, sans-serif;
@@ -21,10 +53,6 @@
   margin-left: -150px; 
   top: 50%;
   transform: translateY(-50%);
-}
-
-.prokrutka {
-  overflow: auto;
 }
 
 .fade {

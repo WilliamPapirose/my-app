@@ -63,6 +63,11 @@
     box-sizing: border-box;
 }
 
+.information {
+    overflow: auto;
+    height: 500px;
+}
+
 .popup { 
     margin-bottom: 50px;
     position: fixed;
@@ -72,14 +77,13 @@
     text-align: center;
     width: 96%;
     max-height: 90%;
-    overflow: auto;
 	background-color: rgb(91, 42, 104);
     border-radius: 12px;
     margin-top: 30px;
 }
 
 .popup .head {
-    width: 100%;
+    width: 100sp;
     background-color: blueviolet;
 	box-sizing: border-box; 
     padding: 10px;
