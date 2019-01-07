@@ -65,16 +65,17 @@
 
 .popup { 
     margin-bottom: 50px;
-    position: absolute;
+    position: fixed;
     font-family: Dosis Bold, sans-serif;
     color: #fff;
     font-size: 24px;
     text-align: center;
     width: 96%;
-    height: max-content;
+    max-height: 90%;
+    overflow: auto;
 	background-color: rgb(91, 42, 104);
     border-radius: 12px;
-    margin-top: 80px;
+    margin-top: 30px;
 }
 
 .popup .head {
