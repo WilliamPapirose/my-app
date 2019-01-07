@@ -34,7 +34,6 @@
 }
 
 .comments {
-    position: relative;
     width: 45%;
     float: right;
     display: block;
@@ -54,9 +53,8 @@
 }
 
 .writerCommnets {
-    float: right;
     margin: 0;
-    width: 45%;
+    width: 100%;
 }
 
 .comment {
@@ -75,7 +73,7 @@
 .information {
     float: right;
     margin-top: 11px;
-    width: 45%;
+    width: 100%;
     padding-bottom: 50px;
     height: 1;
 }

@@ -22,7 +22,7 @@ const CommentForm = ({
 }) => {
   let comment;
   return (
-    <div>
+    <div className="comments">
       <div className="writerCommnets">
         <textarea
           style={{ height: '120px' }}
