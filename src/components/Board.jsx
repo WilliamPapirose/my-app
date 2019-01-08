@@ -192,7 +192,7 @@ class Board extends Component {
             <CardInfoPopup
               user={user}
               card={cards[currentCard.columnId].find(card => card.id === currentCard.id)}
-              comments={comments.filter(item => item.id === currentCard.id)[0].comments}
+              comments={comments.find(item => item.id === currentCard.id).comments}
               columnName={columns[currentCard.columnId].name}
               editComment={this.editComment}
               addComment={this.addComment}
