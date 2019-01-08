@@ -66,6 +66,10 @@ class EditableTitle extends Component {
     this.setState({ isFormShowed: false, length: name.length });
   }
 
+  blur = () => {
+    this.setState({ isFormShowed: false });
+  }
+
   render() {
     const {
       maxLength,
@@ -75,7 +79,7 @@ class EditableTitle extends Component {
       countOk,
     } = this.state;
     return (
-      <div>
+      <div onBlur={this.blur}>
         <div
           role="presentation"
           spellСheck="false"
