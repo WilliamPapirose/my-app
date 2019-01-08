@@ -8,7 +8,7 @@ class Description extends Component {
     this.state = {
       onEdit: false,
       description: card.description,
-      withDescription: card.description ? true : false,
+      withDescription: card.description,
     };
   }
 

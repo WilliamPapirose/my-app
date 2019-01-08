@@ -58,7 +58,6 @@ CardInfoPopup.propTypes = {
   hide: PropTypes.func.isRequired,
   card: PropTypes.objectOf(PropTypes.any).isRequired,
   comments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  deleteDescription: PropTypes.func.isRequired,
   editDescription: PropTypes.func.isRequired,
   addComment: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
