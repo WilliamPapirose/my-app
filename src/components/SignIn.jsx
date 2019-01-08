@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class NameForm extends Component {
+class SignIn extends Component {
   constructor() {
     super();
     this.state = {
@@ -38,6 +38,7 @@ class NameForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <p>
             <input
+              spellСheck="false"
               ref={(ref) => { this.input = ref; }}
               className="new_card_name"
               type="text"
@@ -54,8 +55,8 @@ class NameForm extends Component {
   }
 }
 
-NameForm.propTypes = {
+SignIn.propTypes = {
   signIn: PropTypes.func.isRequired,
 };
 
-export default NameForm;
+export default SignIn;

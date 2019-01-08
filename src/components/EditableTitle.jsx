@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class SignIn extends Component {
+class EditableTitle extends Component {
   constructor(props) {
     super(props);
     const { name } = this.props;
@@ -78,6 +78,7 @@ class SignIn extends Component {
       <div>
         <div
           role="presentation"
+          spellСheck="false"
           onKeyDown={this.handleKeyDown}
           ref={(ref) => { this.Name = ref; }}
           onFocus={this.countCheck}
@@ -104,10 +105,10 @@ class SignIn extends Component {
   }
 }
 
-SignIn.propTypes = {
+EditableTitle.propTypes = {
   rename: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   canEdit: PropTypes.bool.isRequired,
 };
 
-export default SignIn;
+export default EditableTitle;
