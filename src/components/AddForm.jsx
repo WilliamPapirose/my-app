@@ -35,24 +35,35 @@ class AddForm extends Component {
     const { isFormShowed, name } = this.state;
     return (
       <div className="addform">
-        <button type="button" className="button plus" onClick={() => { this.setState({ isFormShowed: true }); }}>+</button>
+        <button
+          type="button"
+          className="button plus"
+          onClick={() => { this.setState({ isFormShowed: true }); }}
+        >
+          +
+        </button>
         {isFormShowed && (
           <div>
             <form onSubmit={this.handleSubmit}>
               <p>
                 <input
                   maxLength="42"
-                  ref={ref => this.input = ref}
+                  ref={(ref) => { this.input = ref; }}
                   className="new_card_name"
                   type="text"
                   placeholder="Card Name"
                   value={name}
                   required="required"
-                  onChange={this.onChange}/>
+                  onChange={this.onChange}
+                />
                 <input className="button" type="submit" value="Create" />
               </p>
             </form>
-            <button type="button" className="button" onClick={() => { this.setState({ name: '', isFormShowed: false }); }}>
+            <button
+              type="button"
+              className="button"
+              onClick={() => { this.setState({ name: '', isFormShowed: false }); }}
+            >
               Cancel
             </button>
           </div>

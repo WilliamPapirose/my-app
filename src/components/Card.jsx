@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './card.css';
 import PropTypes from 'prop-types';
-import CardName from './Name.jsx';
+import Name from './Name';
 
 class Card extends Component {
   constructor(props) {
@@ -13,62 +13,59 @@ class Card extends Component {
   }
 
   rename = (name) => {
-    this.setState({ name });
-    const { save, id } = this.props;
-    save(name, id);
+    const { edit, id } = this.props;
+    edit(name, id);
   }
 
   render() {
     const {
       user,
       id,
-      column,
       columnId,
       author,
-      comments,
-      showInfo,
+      commentsCount,
+      showInfoPopup,
       del,
     } = this.props;
     const { name } = this.state;
     return (
       <div className="card">
-        <div style={{ height: '22px' }}>
-          <p style={{ float: 'left' }}>
-            Author:
+        <div>
+          <p className="left">
+            Author:&nbsp;
             {author}
           </p>
-          <p style={{ float: 'right' }}>
-            Comments:
-            {(comments[id] == null) ? 0 : comments[id].filter(x => x !== null).length}
+          <p className="right">
+            Comments:&nbsp;
+            {commentsCount}
           </p>
         </div>
-        <CardName
-          user={user}
-          author={author}
+        <Name
+          canEdit={user === author}
           name={name}
           rename={this.rename}
         />
-        <div style={{ height: '37px' }}>
+        <div className="card_buttons">
           <button
             type="button"
-            className="button button_card"
-            style={{ float: 'left', marginLeft: 0 }}
+            className="button button_card button_left"
             onClick={() => {
-              showInfo(name, column, author, columnId, id);
+              showInfoPopup({ columnId, id });
             }}
           >
             More information
           </button>
-          <button
-            type="button"
-            className="button button_card"
-            style={{ float: 'right', marginRight: 0 }}
-            onClick={() => {
-              if (user === author) del(id);
-            }}
-          >
-           X
-          </button>
+          {(user === author) && (
+            <button
+              type="button"
+              className="button button_card button_right"
+              onClick={() => {
+                del(id);
+              }}
+            >
+            X
+            </button>
+          )}
         </div>
       </div>
     );
@@ -79,13 +76,12 @@ Card.propTypes = {
   columnId: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,
   del: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
   user: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  showInfo: PropTypes.func.isRequired,
-  save: PropTypes.func.isRequired,
-  comments: PropTypes.object.isRequired,
-  column: PropTypes.object.isRequired,
+  showInfoPopup: PropTypes.func.isRequired,
+  commentsCount: PropTypes.number.isRequired,
 };
 
 export default Card;

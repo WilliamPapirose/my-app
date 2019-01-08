@@ -10,35 +10,24 @@ class Comment extends Component {
     };
   }
 
-  onChange = (e) => {
-    const val = e.target.value;
-    const {
-      edit,
-      card,
-      id,
-      author,
-    } = this.props;
-    edit(card.columnId, card.id, id, val, author);
+  componentDidUpdate() {
+    const { isEditable } = this.state;
+    if (isEditable) this.comment.focus();
   }
 
   handleKeyDown = (e) => {
     const keyValue = e.key;
     if (keyValue === 'Enter') {
       e.preventDefault();
-      this.handleSubmit();
+      this.editComment();
     }
   }
 
-  handleSubmit = () => {
+  editComment = () => {
     const { isEditable } = this.state;
-    const {
-      add,
-      card,
-      id,
-      author,
-    } = this.props;
-    if (isEditable) {
-      add(card.columnId, card.id, id, this.comment.innerText, author);
+    const { editComment, id } = this.props;
+    if (isEditable && this.comment.innerText) {
+      editComment(id, this.comment.innerText);
       this.setState({ isEditable: false });
     } else {
       this.setState({ isEditable: true });
@@ -53,55 +42,40 @@ class Comment extends Component {
       author,
       user,
       deleteComment,
-      card,
     } = this.props;
     return (
       <div className="comment">
         <div
           role="presentation"
-          style={
-            {
-              padding: '10px',
-              boxSizing: 'border-box',
-              backgroundColor: isEditable ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.2)',
-            }
-          }
+          className={
+            isEditable ? 'comment_textarea' : 'comment_textarea transparant'}
           onKeyDown={this.handleKeyDown}
-          className="comment_textarea"
-          ref={ref => this.comment = ref}
-          onChange={this.onChange}
+          ref={(ref) => { this.comment = ref; }}
           contentEditable={(author === user && isEditable)}
         >
           {text}
         </div>
         {(author === user) && (
-          <div style={{ marginTop: '5px'}}>
+          <div className="comment_footer">
             <button
               type="button"
-              style={{ float: 'right' }}
-              className="button"
+              className="button right"
               onClick={() => {
-                deleteComment(card.columnId, card.id, id);
+                deleteComment(id);
               }}
             >
                 delete
             </button>
             <button
               type="button"
-              style={{ float: 'right' }}
-              className="button"
-              onClick={() => {
-                this.handleSubmit();
-              }}
+              className="button right"
+              onClick={this.editComment}
             >
               {(isEditable) ? 'Save' : 'Edit'}
             </button>
           </div>
         )}
-        <div style={{
-          marginTop: '5px', marginLeft: '5px', float: 'left', wordBreak: 'normal', maxWidth: '60px', fontSize: '14px',
-        }}
-        >
+        <div className="comment_author">
           Author:
           {author}
         </div>
@@ -111,13 +85,11 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
-  edit: PropTypes.func.isRequired,
-  add: PropTypes.func.isRequired,
+  editComment: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,
   user: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  card: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired,
 };
 

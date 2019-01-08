@@ -2,83 +2,67 @@ import React, { Component } from 'react';
 import './column.css';
 import './style.css';
 import PropTypes from 'prop-types';
-import Card from './Card.jsx';
-import AddForm from './AddForm.jsx';
-import ColumnName from './Name.jsx';
+import Card from './Card';
+import AddForm from './AddForm';
+import Name from './Name';
 
 class Column extends Component {
   constructor(props) {
     super(props);
-    const { name, id } = this.props;
-    const saveName = 'cards_massive_' + id;
-    const cards = JSON.parse(window.localStorage.getItem(saveName)) || [];
+    const { name } = this.props;
     this.state = {
-      cards,
       name,
-      saveName,
     };
   }
 
   rename = (name) => {
-    this.setState({ name });
-    const { save, id } = this.props;
-    save(name, id);
-  }
-
-  deleteCard = (id) => {
-    const { cards } = this.state;
-    delete cards[id];
-    this.setState({ cards });
-    this.save();
+    const { renameColumn, id } = this.props;
+    renameColumn(name, id);
   }
 
   addCard = (name) => {
-    const { cards } = this.state;
-    const { user } = this.props;
-    cards.push({ name, id: cards.length, author: user });
-    this.setState({ cards });
-    this.save();
+    const { addCard, id } = this.props;
+    addCard(name, id);
   }
 
-  save = () => {
-    const { cards, saveName } = this.state;
-    window.localStorage.setItem(saveName, JSON.stringify(cards));
+  deleteCard = (cardId) => {
+    const { deleteCard, id } = this.props;
+    deleteCard(id, cardId);
   }
 
-  saveCards = (name, id) => {
-    const { cards, saveName } = this.state;
-    cards[id].name = name;
-    this.setState({ cards });
-    window.localStorage.setItem(saveName, JSON.stringify(cards));
+  editCard = (name, cardId) => {
+    const { editCard, id } = this.props;
+    editCard(name, id, cardId);
   }
 
   render() {
-    const { name, cards } = this.state;
+    const { name } = this.state;
     const {
       id,
       comments,
       user,
-      showInfo,
+      showInfoPopup,
+      cards,
     } = this.props;
     return (
       <div className="column">
-        <ColumnName user="" author="" name={name} rename={this.rename} />
+        <Name canEdit name={name} rename={this.rename} />
         <AddForm add={this.addCard} />
         <div>
           {cards.map((card) => {
             if (card !== null) {
               return (
                 <Card
-                  comments={comments[id]}
                   name={card.name}
                   id={card.id}
+                  commentsCount={comments.find(item => item.id === card.id).comments.length}
                   author={card.author}
                   column={name}
                   columnId={id}
                   del={this.deleteCard}
+                  edit={this.editCard}
                   user={user}
-                  showInfo={showInfo}
-                  save={this.saveCards}
+                  showInfoPopup={showInfoPopup}
                 />
               );
             } return null;
@@ -93,9 +77,13 @@ Column.propTypes = {
   user: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  showInfo: PropTypes.func.isRequired,
-  save: PropTypes.func.isRequired,
-  comments: PropTypes.object.isRequired,
+  showInfoPopup: PropTypes.func.isRequired,
+  addCard: PropTypes.func.isRequired,
+  deleteCard: PropTypes.func.isRequired,
+  editCard: PropTypes.func.isRequired,
+  cards: PropTypes.objectOf(PropTypes.any).isRequired,
+  renameColumn: PropTypes.func.isRequired,
+  comments: PropTypes.objectOf(PropTypes.array).isRequired,
 };
 
 export default Column;

@@ -15,14 +15,13 @@
 
 .comment_textarea {
     font-family: Dosis Bold, sans-serif;
-    padding: 5px;
     width: 100%;
     margin: 0 auto;
     height: fit-content;
     min-height: 60px;
 	resize: none;
     margin: 0 auto;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.8);
 	color: #fff;
 	font-size: 12px;
 	font-weight: 900;
@@ -31,6 +30,12 @@
 	word-break: break-all;
     outline: none;
     border: none;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.comment_textarea.transparant {
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .comments {
@@ -40,7 +45,7 @@
 }
 
 .comment_text {
-    height: 10%;
+    height: 120px;
     width: 90%;
     float: right;
     margin-right: 10px;
@@ -70,11 +75,10 @@
     box-sizing: border-box;
 }
 
-.information {
+.all_comments {
     float: right;
     margin-top: 11px;
     width: 100%;
-    padding-bottom: 50px;
     height: 1;
 }
 
@@ -117,6 +121,12 @@
     height: 100%;
     padding: 5% 0;
     background-color: rgba(0, 0, 0, 0.6);
+}
+
+.card_name {
+    margin-bottom: 0; 
+    margin-top: 30px;
+    word-break: break-all;
 }
 
 .column_name {

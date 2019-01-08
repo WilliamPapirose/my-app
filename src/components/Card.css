@@ -26,6 +26,20 @@
 	outline: none;
 }
 
+.button_right {
+	float: right;
+	margin-right: 0;
+}
+
+.button_left {
+	float: left;
+	margin-left: 0;
+}
+
+.card_buttons {
+	height: 38px;
+}
+
 .card .textarea:focus {
 	background-color: rgba(0, 0, 0, 0.6);
 }

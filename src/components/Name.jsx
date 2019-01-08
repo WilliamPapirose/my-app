@@ -9,16 +9,21 @@ class Name extends Component {
       name,
       length: name.length,
       maxLength: 42,
-      countColor: '#fff',
+      countOk: true,
       isFormShowed: false,
     };
   }
 
   onChange = (e) => {
-    const { user, author } = this.props;
+    const { canEdit } = this.props;
     const { maxLength } = this.state;
-    if (user !== author) e.preventDefault();
-    else this.setState({ length: this.Name.innerText.length, countColor: (this.Name.innerText.length > maxLength) ? '#f00' : '#fff' });
+    if (!canEdit) e.preventDefault();
+    else {
+      this.setState({
+        length: this.Name.innerText.length,
+        countOk: (this.Name.innerText.length < maxLength),
+      });
+    }
   }
 
   handleSubmit = () => {
@@ -28,11 +33,11 @@ class Name extends Component {
       this.setState({
         name: this.Name.innerText,
         length: this.Name.innerText.length,
-        countColor: '#fff',
+        countOk: true,
         isFormShowed: false,
       });
       rename(this.Name.innerText);
-    } else alert('Wrong length: '+this.Name.innerText.length+'/'+this.state.maxLength)
+    }
     this.Name.blur();
   }
 
@@ -44,51 +49,54 @@ class Name extends Component {
     }
   }
 
+  countCheck = () => {
+    const { canEdit } = this.props;
+    const { maxLength } = this.state;
+    if (canEdit) {
+      this.setState({
+        isFormShowed: true,
+        countOk: (this.Name.innerText.length < maxLength),
+      });
+    } else this.Name.blur();
+  }
+
+  cancel = () => {
+    const { name } = this.state;
+    this.Name.innerHTML = name;
+    this.setState({ isFormShowed: false, length: name.length });
+  }
+
   render() {
-    const { user, author } = this.props;
     const {
       maxLength,
       length,
       name,
       isFormShowed,
-      countColor,
+      countOk,
     } = this.state;
     return (
       <div>
         <div
           role="presentation"
           onKeyDown={this.handleKeyDown}
-          ref={ref => this.Name = ref}
-          onFocus={() => {
-            if (user === author) {
-              this.setState({ isFormShowed: true, countColor: (this.Name.innerText.length > maxLength) ? '#f00' : '#fff' });
-            } else this.Name.blur();
-          }}
+          ref={(ref) => { this.Name = ref; }}
+          onFocus={this.countCheck}
           contentEditable="true"
-          onKeyPress={(e) => { this.onChange(e); }}
-          onKeyUpCapture={(e) => { this.onChange(e); }}
+          onKeyPress={this.onChange}
+          onKeyUpCapture={this.onChange}
           className="name"
         >
           {name}
         </div>
         {isFormShowed && (
-          <div style={{ marginTop: '10px' }}>
-            <div style={{ color: countColor }}>
+          <div>
+            <div className={countOk ? 'white' : 'red'}>
               {length}
               /
               {maxLength}
             </div>
             <button type="button" className="button" onClick={this.handleSubmit}>Save</button>
-            <button
-              type="button"
-              className="button"
-              onClick={() => {
-                this.Name.innerHTML = name; 
-                this.setState({ isFormShowed: false, length: name.length });
-              }}
-            >
-              Cancel
-            </button>
+            <button type="button" className="button" onClick={this.cancel}>Cancel</button>
           </div>
         )}
       </div>
@@ -98,9 +106,8 @@ class Name extends Component {
 
 Name.propTypes = {
   rename: PropTypes.func.isRequired,
-  author: PropTypes.string.isRequired,
-  user: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  canEdit: PropTypes.bool.isRequired,
 };
 
 export default Name;

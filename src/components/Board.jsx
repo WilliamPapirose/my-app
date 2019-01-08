@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
-import Column from './Column.jsx';
-import CardInfo from './CardInfo.jsx';
-import NameForm from './NameForm.jsx';
-import Hat from './Hat.jsx';
+import Column from './Column';
+import CardInfoPopup from './CardInfoPopup';
+import NameForm from './NameForm';
+import Hat from './Hat';
 
 class Board extends Component {
   constructor() {
     super();
     const user = window.localStorage.getItem('lastUserName');
-    const descriptions = JSON.parse(window.localStorage.getItem('descr')) || [[], [], [], []];
-    const comments = JSON.parse(window.localStorage.getItem('comments')) || [[[]], [[]], [[]], [[]]];
-    const columns = JSON.parse(window.localStorage.getItem('columns')) || [{ name: 'TODO', id: 0 }, { name: 'In Progress', id: 1 }, { name: 'Testing', id: 2 }, { name: 'Done', id: 3 }];
+    const cards = JSON.parse(window.localStorage.getItem('myAppCards')) || [[], [], [], []];
+    const comments = JSON.parse(window.localStorage.getItem('myAppComments')) || [];
+    const columns = JSON.parse(window.localStorage.getItem('myAppColumns')) || [{ name: 'TODO', id: 0 }, { name: 'In Progress', id: 1 }, { name: 'Testing', id: 2 }, { name: 'Done', id: 3 }];
     this.state = {
+      nextId: parseInt(window.localStorage.nextId, 10) || 0,
+      nextCommentId: parseInt(window.localStorage.nextCommentId, 10) || 0,
+      currentCard: null,
       columns,
       user,
-      cardInfo: {},
-      isInfoShowed: false,
-      descriptions,
+      cards,
+      isInfoPopupShowed: false,
       comments,
     };
   }
@@ -30,83 +32,131 @@ class Board extends Component {
     window.localStorage.setItem('lastUserName', user);
   }
 
-  saveColumns = (rename, id) => {
-    const { columns } = this.state;
-    columns[id].name = rename;
-    this.setState({ columns });
-    window.localStorage.setItem('columns', JSON.stringify(columns));
-  }
-
-  saveDescription = (columnId, cardId, desc) => {
-    const { descriptions, cardInfo } = this.state;
-    cardInfo.reserve = desc;
-    descriptions[columnId][cardId] = desc;
-    this.setState({ descriptions, cardInfo });
-    window.localStorage.setItem('descr', JSON.stringify(descriptions));
-  }
-
-  changeDescription = (val) => {
-    const { cardInfo } = this.state;
-    cardInfo.description = val;
-    this.setState({ cardInfo });
-  }
-
-  addDescription = (val) => {
-    const { cardInfo } = this.state;
-    cardInfo.withDescription = val;
-    this.setState({ cardInfo });
-  }
-
-  editComment = (columnId, cardId, id, text, author) => {
-    const { comments, cardInfo } = this.state;
-    if (comments[columnId][cardId] == null) comments[columnId][cardId] = [];
-    comments[columnId][cardId][id] = { text, author, id };
-    cardInfo.comments[id] = { text, author, id };
-    this.setState({ cardInfo, comments });
-  }
-
-  addComment = (columnId, cardId, id, text, author) => {
-    const { comments, cardInfo } = this.state;
-    if (comments[columnId][cardId] == null) comments[columnId][cardId] = [];
-    comments[columnId][cardId][id] = { text, author, id };
-    cardInfo.comments[id] = { text, author, id };
-    this.setState({ cardInfo, comments });
-    window.localStorage.setItem('comments', JSON.stringify(comments));
-  }
-
-  deleteComment = (columnId, cardId, id) => {
-    const { comments, cardInfo } = this.state;
-    delete comments[columnId][cardId][id];
-    delete cardInfo.comments[id];
-    this.setState({ cardInfo, comments });
-    window.localStorage.setItem('comments', JSON.stringify(comments));
-  }
-
-  showInfo = (name, column, author, columnId, id) => {
+  addCard = (name, columnId) => {
     const {
-      cardInfo,
+      cards,
       comments,
-      descriptions,
       user,
-      isInfoShowed,
+      nextId,
     } = this.state;
-    cardInfo.name = name;
-    cardInfo.column = column;
-    cardInfo.author = author;
-    cardInfo.columnId = columnId;
-    cardInfo.id = id;
-    cardInfo.comments = (comments[columnId][id] == null) ? [] : comments[columnId][id];
-    cardInfo.editable = (cardInfo.author === user);
-    cardInfo.description = (descriptions[columnId][id] == null) ? '' : descriptions[columnId][id];
-    cardInfo.reserve = cardInfo.description;
-    cardInfo.withDescription = (cardInfo.description !== '');
-    this.setState({ cardInfo, isInfoShowed: (isInfoShowed === false) });
+    let newNextId = nextId;
+    const newCards = cards;
+    newCards[columnId].push({ id: nextId, name, author: user });
+    const newComments = comments;
+    newComments.push({ id: nextId, comments: [] });
+    newNextId += 1;
+    this.setState({ cards: newCards, comments: newComments, nextId: newNextId });
+    window.localStorage.setItem('nextId', newNextId);
+    window.localStorage.setItem('myAppCards', JSON.stringify(newCards));
+    window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
+  }
+
+  deleteCard = (columnId, cardId) => {
+    const { cards, comments } = this.state;
+    const newCards = cards;
+    newCards[columnId] = cards[columnId].filter(card => (card.id !== cardId));
+    const newComments = comments.filter(cardComments => (cardComments.id !== cardId));
+    this.setState({ cards: newCards, comments: newComments });
+    window.localStorage.setItem('myAppCards', JSON.stringify(newCards));
+    window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
+  }
+
+  editCard = (name, columnId, cardId) => {
+    const { cards } = this.state;
+    const newCards = cards;
+    newCards[columnId] = cards[columnId].map((card) => {
+      if (card.id === cardId) {
+        return {
+          ...card,
+          name,
+        };
+      } return card;
+    });
+    this.setState({ cards: newCards });
+    window.localStorage.setItem('myAppCards', JSON.stringify(newCards));
+  }
+
+  renameColumn = (name, columnId) => {
+    const { columns } = this.state;
+    const newColumns = columns;
+    newColumns[columnId] = {
+      ...columns[columnId],
+      name,
+    };
+    this.setState({ columns: newColumns });
+    window.localStorage.setItem('myAppColumns', JSON.stringify(newColumns));
+  }
+
+  editDescription = (description) => {
+    const { cards, currentCard } = this.state;
+    const newCards = cards;
+    newCards[currentCard.columnId] = cards[currentCard.columnId].map((card) => {
+      if (card.id === currentCard.id) {
+        return {
+          ...card,
+          description,
+        };
+      } return card;
+    });
+    this.setState({ cards: newCards });
+    window.localStorage.setItem('myAppCards', JSON.stringify(newCards));
+  }
+
+  editComment = (id, text) => {
+    const { currentCard, comments } = this.state;
+    const newComments = comments;
+    const newCardComments = comments.find(
+      item => item.id === currentCard.id,
+    ).comments.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          text,
+        };
+      } return item;
+    });
+    newComments.find(
+      item => item.id === currentCard.id,
+    ).comments = newCardComments;
+    this.setState({ comments: newComments });
+    window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
+  }
+
+  addComment = (text, author) => {
+    const { currentCard, comments, nextCommentId } = this.state;
+    let newNextCommentId = nextCommentId;
+    const newComments = comments;
+    newComments.find(
+      item => item.id === currentCard.id,
+    ).comments.push({
+      id: nextCommentId,
+      text,
+      author,
+      description: '',
+    });
+    newNextCommentId += 1;
+    this.setState({ comments: newComments, nextCommentId: newNextCommentId });
+    window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
+    window.localStorage.setItem('nextCommentId', newNextCommentId);
+  }
+
+  deleteComment = (commentId) => {
+    const { comments, currentCard } = this.state;
+    const newComments = comments;
+    const newCardComments = newComments.find(item => item.id === currentCard.id).comments;
+    newComments.find(
+      item => item.id === currentCard.id,
+    ).comments = newCardComments.filter(c => c.id !== commentId);
+    this.setState({ comments: newComments });
+    window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
+  }
+
+  showInfoPopup = (currentCard) => {
+    this.setState({ currentCard, isInfoPopupShowed: true });
   }
 
   hideForm = () => {
-    const { cardInfo } = this.state;
-    cardInfo.description = '';
-    this.setState({ cardInfo, isInfoShowed: false });
+    this.setState({ isInfoPopupShowed: false });
   }
 
   componentDidUnmont = () => {
@@ -121,46 +171,56 @@ class Board extends Component {
     }
   }
 
+  noneTabulation = (e) => {
+    if (e.key === 'Tab') { e.preventDefault(); }
+  }
+
   render() {
     const {
       user,
-      cardInfo,
-      isInfoShowed,
+      cards,
+      currentCard,
+      isInfoPopupShowed,
       columns,
       comments,
     } = this.state;
     return (
       <header>
-        <Hat user={user} signIn={this.signIn} />
-        {isInfoShowed && (
+        {user && (<Hat user={user} signIn={this.signIn} />)}
+        {isInfoPopupShowed && (
           <div className="info_popup">
-            <CardInfo
+            <CardInfoPopup
               user={user}
+              card={cards[currentCard.columnId].find(card => card.id === currentCard.id)}
+              comments={comments.filter(item => item.id === currentCard.id)[0].comments}
+              columnName={columns[currentCard.columnId].name}
               editComment={this.editComment}
               addComment={this.addComment}
               deleteComment={this.deleteComment}
-              addDescription={this.addDescription}
-              changeDescription={this.changeDescription}
+              editDescription={this.editDescription}
               hide={this.hideForm}
-              card={cardInfo}
-              saveDescription={this.saveDescription}
             />
           </div>
         )}
-        {user === '' && (
-          <div role="presentation" onKeyDown={(e) => { if (e.key === 'Tab') { e.preventDefault(); } }} className="fade">
+        {!user && (
+          <div role="presentation" onKeyDown={this.noneTabulation} className="fade">
             <NameForm signIn={this.signIn} />
           </div>
         )}
         <div className="App">
-          {columns.map(column => (
+          {columns.map(column => user && (
             <Column
+              addCard={this.addCard}
+              deleteCard={this.deleteCard}
+              editCard={this.editCard}
+              cards={cards[column.id]}
+              renameColumn={this.renameColumn}
               comments={comments}
               name={column.name}
               id={column.id}
               user={user}
-              showInfo={this.showInfo}
-              save={this.saveColumns}
+              showInfoPopup={this.showInfoPopup}
+              saveColumns={this.saveColumns}
             />
           ))}
         </div>
