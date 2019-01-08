@@ -46,6 +46,21 @@ class Description extends Component {
     } else this.description.blur();
   }
 
+  addDescription = () => {
+    this.setState({ withDescription: true });
+  }
+
+  cancel = () => {
+    const { card } = this.props;
+    this.setState({ description: card.description, onEdit: false });
+    this.description.blur();
+  }
+
+  delete = () => {
+    this.editDescription('');
+    this.setState({ description: '', withDescription: false });
+  }
+
   render() {
     const {
       user,
@@ -59,13 +74,7 @@ class Description extends Component {
       >
         {(card.author === user && !withDescription) && (
           <div className="description">
-            <button
-              type="button"
-              className="button plus"
-              onClick={() => { this.setState({ withDescription: true }); }}
-            >
-              Add description
-            </button>
+            <button type="button" className="button plus" onClick={this.addDescription}> Add description </button>
           </div>
         )}
         {(withDescription) && (
@@ -80,27 +89,9 @@ class Description extends Component {
           />
           {(card.author === user && onEdit) && (
           <div className="author_buttons with_desc">
-            <button type="button" className="button" onClick={() => { this.editDescription(description); }}>Save</button>
-            <button
-              type="button"
-              className="button"
-              onClick={() => {
-                this.setState({ description: card.description, onEdit: false });
-                this.description.blur();
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className="button"
-              onClick={() => {
-                this.editDescription('');
-                this.setState({ description: '', withDescription: false });
-              }}
-            >
-              Delete description
-            </button>
+            <button type="button" className="button" onClick={() => { this.editDescription(description); }}> Save </button>
+            <button type="button" className="button" onClick={this.cancel}> Cancel </button>
+            <button type="button" className="button" onClick={this.delete}> Delete description </button>
           </div>
           )}
         </React.Fragment>
