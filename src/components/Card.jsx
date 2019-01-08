@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Name from './Name';
+import EditableTitle from './EditableTitle';
 
 class Card extends Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class Card extends Component {
             {commentsCount}
           </p>
         </div>
-        <Name
+        <EditableTitle
           canEdit={user === author}
           name={name}
           rename={this.rename}

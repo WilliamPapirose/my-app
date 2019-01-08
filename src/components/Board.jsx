@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Column from './Column';
 import CardInfoPopup from './CardInfoPopup';
-import NameForm from './NameForm';
-import Hat from './Hat';
+import SignIn from './SignIn';
+import Header from './Header';
 
 class Board extends Component {
   constructor() {
@@ -186,7 +186,7 @@ class Board extends Component {
     } = this.state;
     return (
       <header>
-        {user && (<Hat user={user} signIn={this.signIn} />)}
+        {user && (<Header user={user} signIn={this.signIn} />)}
         {isInfoPopupShowed && (
           <div className="info_popup">
             <CardInfoPopup
@@ -204,7 +204,7 @@ class Board extends Component {
         )}
         {!user && (
           <div role="presentation" onKeyDown={this.noneTabulation} className="fade">
-            <NameForm signIn={this.signIn} />
+            <SignIn signIn={this.signIn} />
           </div>
         )}
         <div className="App">

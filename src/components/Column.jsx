@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import AddForm from './AddForm';
-import Name from './Name';
+import EditableTitle from './EditableTitle';
 
 class Column extends Component {
   constructor(props) {
@@ -44,7 +44,7 @@ class Column extends Component {
     } = this.props;
     return (
       <div className="column">
-        <Name canEdit name={name} rename={this.rename} />
+        <EditableTitle canEdit name={name} rename={this.rename} />
         <AddForm add={this.addCard} />
         <div>
           {cards.map((card) => {

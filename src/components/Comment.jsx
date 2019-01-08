@@ -75,7 +75,7 @@ class Comment extends Component {
           </div>
         )}
         <div className="comment_author">
-          Author:
+          Author:&nbsp;
           {author}
         </div>
       </div>

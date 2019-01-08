@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Name extends Component {
+class SignIn extends Component {
   constructor(props) {
     super(props);
     const { name } = this.props;
@@ -104,10 +104,10 @@ class Name extends Component {
   }
 }
 
-Name.propTypes = {
+SignIn.propTypes = {
   rename: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   canEdit: PropTypes.bool.isRequired,
 };
 
-export default Name;
+export default SignIn;
