@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './card.css';
 
 class Comment extends Component {
   constructor(props) {

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import './column.css';
-import './style.css';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import AddForm from './AddForm';
