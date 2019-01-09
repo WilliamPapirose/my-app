@@ -30,17 +30,19 @@ class AddForm extends Component {
     this.setState({ name: '', isFormShowed: false });
   }
 
+  openForm = () => {
+    this.setState({ isFormShowed: true });
+  }
+
+  cancel = () => {
+    this.setState({ name: '', isFormShowed: false });
+  }
+
   render() {
     const { isFormShowed, name } = this.state;
     return (
       <div className="addform">
-        <button
-          type="button"
-          className="button plus"
-          onClick={() => { this.setState({ isFormShowed: true }); }}
-        >
-          +
-        </button>
+        <button type="button" className="button plus" onClick={this.openForm}> + </button>
         {isFormShowed && (
           <div>
             <form onSubmit={this.handleSubmit}>
@@ -58,13 +60,7 @@ class AddForm extends Component {
                 <input className="button" type="submit" value="Create" />
               </p>
             </form>
-            <button
-              type="button"
-              className="button"
-              onClick={() => { this.setState({ name: '', isFormShowed: false }); }}
-            >
-              Cancel
-            </button>
+            <button type="button" className="button" onClick={this.cancel}> Cancel </button>
           </div>
         )}
       </div>

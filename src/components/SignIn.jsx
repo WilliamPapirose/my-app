@@ -38,7 +38,6 @@ class SignIn extends Component {
         <form onSubmit={this.handleSubmit}>
           <p>
             <input
-              spellСheck="false"
               ref={(ref) => { this.input = ref; }}
               className="new_card_name"
               type="text"
@@ -46,7 +45,8 @@ class SignIn extends Component {
               placeholder="Your Name"
               value={user}
               required
-              onChange={this.onChange} />
+              onChange={this.onChange}
+            />
             <input className="button" type="submit" value="Start" />
           </p>
         </form>

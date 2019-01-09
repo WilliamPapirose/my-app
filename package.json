@@ -18,7 +18,8 @@
   "eslintConfig": {
     "extends": "airbnb",
     "globals": {
-      "window": true
+      "window": true,
+      "document": true
     },
     "parser": "babel-eslint"
   },

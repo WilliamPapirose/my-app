@@ -11,25 +11,38 @@ class Comment extends Component {
 
   componentDidUpdate() {
     const { isEditable } = this.state;
-    if (isEditable) this.comment.focus();
+    if (isEditable) {
+      this.comment.focus();
+      this.setCursorToEnd(this.comment);
+    }
+  }
+
+  setCursorToEnd = (ele) => {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.setStart(ele, 1);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
   }
 
   handleKeyDown = (e) => {
     const keyValue = e.key;
     if (keyValue === 'Enter') {
       e.preventDefault();
-      this.editComment();
+      this.saveComment();
     }
   }
 
   editComment = () => {
-    const { isEditable } = this.state;
+    this.setState({ isEditable: true });
+  }
+
+  saveComment = () => {
     const { editComment, id } = this.props;
-    if (isEditable && this.comment.innerText) {
+    if (this.comment.innerText) {
       editComment(id, this.comment.innerText);
       this.setState({ isEditable: false });
-    } else {
-      this.setState({ isEditable: true });
     }
   }
 
@@ -46,8 +59,7 @@ class Comment extends Component {
       <div className="comment">
         <div
           role="presentation"
-          className={
-            isEditable ? 'comment_textarea' : 'comment_textarea transparant'}
+          className={isEditable ? 'comment_textarea' : 'comment_textarea transparant'}
           onKeyDown={this.handleKeyDown}
           ref={(ref) => { this.comment = ref; }}
           contentEditable={(author === user && isEditable)}
@@ -65,13 +77,16 @@ class Comment extends Component {
             >
                 delete
             </button>
-            <button
-              type="button"
-              className="button right"
-              onClick={this.editComment}
-            >
-              {(isEditable) ? 'Save' : 'Edit'}
+            {isEditable && (
+            <button type="button" className="button right" onClick={this.saveComment}>
+              Save
             </button>
+            )}
+            {!isEditable && (
+            <button type="button" className="button right" onClick={this.editComment}>
+              Edit
+            </button>
+            )}
           </div>
         )}
         <div className="comment_author">

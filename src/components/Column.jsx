@@ -79,9 +79,9 @@ Column.propTypes = {
   addCard: PropTypes.func.isRequired,
   deleteCard: PropTypes.func.isRequired,
   editCard: PropTypes.func.isRequired,
-  cards: PropTypes.objectOf(PropTypes.any).isRequired,
+  cards: PropTypes.arrayOf(PropTypes.any).isRequired,
   renameColumn: PropTypes.func.isRequired,
-  comments: PropTypes.objectOf(PropTypes.array).isRequired,
+  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Column;

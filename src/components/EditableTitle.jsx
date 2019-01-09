@@ -78,7 +78,6 @@ class EditableTitle extends Component {
       <div>
         <div
           role="presentation"
-          spellСheck="false"
           onKeyDown={this.handleKeyDown}
           ref={(ref) => { this.Name = ref; }}
           onFocus={this.countCheck}
