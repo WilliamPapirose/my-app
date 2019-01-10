@@ -4,14 +4,11 @@ import Comment from './Comment';
 
 class Comments extends Component {
   handleKeyDown = (event) => {
-    const {
-      addComment,
-      user,
-    } = this.props;
     const keyValue = event.key;
     if (keyValue === 'Enter') {
       event.preventDefault();
-      addComment(this.comment.value, user);
+      this.addComment();
+      this.comment.blur();
     }
   };
 

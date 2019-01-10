@@ -53,7 +53,7 @@ class Column extends Component {
                 <Card
                   name={card.name}
                   id={card.id}
-                  commentsCount={comments.find(item => item.id === card.id).comments.length}
+                  commentsCount={comments[card.id].length}
                   author={card.author}
                   column={name}
                   columnId={id}

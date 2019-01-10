@@ -8,8 +8,13 @@ class Board extends Component {
   constructor() {
     super();
     const user = window.localStorage.getItem('lastUserName');
-    const cards = JSON.parse(window.localStorage.getItem('myAppCards')) || [[], [], [], []];
-    const comments = JSON.parse(window.localStorage.getItem('myAppComments')) || [];
+    const cards = JSON.parse(window.localStorage.getItem('myAppCards')) || {
+      0: [],
+      1: [],
+      2: [],
+      3: [],
+    };
+    const comments = JSON.parse(window.localStorage.getItem('myAppComments')) || { };
     const columns = JSON.parse(window.localStorage.getItem('myAppColumns')) || [{ name: 'TODO', id: 0 }, { name: 'In Progress', id: 1 }, { name: 'Testing', id: 2 }, { name: 'Done', id: 3 }];
     this.state = {
       nextId: parseInt(window.localStorage.nextId, 10) || 0,
@@ -40,10 +45,19 @@ class Board extends Component {
       nextId,
     } = this.state;
     let newNextId = nextId;
-    const newCards = cards;
-    newCards[columnId].push({ id: nextId, name, author: user });
-    const newComments = comments;
-    newComments.push({ id: nextId, comments: [] });
+    const newCards = {
+      ...cards,
+      [columnId]: [...cards[columnId], {
+        id: nextId,
+        name,
+        author: user,
+        description: '',
+      }],
+    };
+    const newComments = {
+      ...comments,
+      [nextId]: [],
+    };
     newNextId += 1;
     this.setState({ cards: newCards, comments: newComments, nextId: newNextId });
     window.localStorage.setItem('nextId', newNextId);
@@ -53,9 +67,15 @@ class Board extends Component {
 
   deleteCard = (columnId, cardId) => {
     const { cards, comments } = this.state;
-    const newCards = cards;
-    newCards[columnId] = cards[columnId].filter(card => (card.id !== cardId));
-    const newComments = comments.filter(cardComments => (cardComments.id !== cardId));
+    const newColumnCards = cards[columnId].filter(card => card.id !== cardId);
+    const newCards = {
+      ...cards,
+      [columnId]: newColumnCards,
+    };
+    const newComments = {
+      ...comments,
+    };
+    delete newComments[cardId];
     this.setState({ cards: newCards, comments: newComments });
     window.localStorage.setItem('myAppCards', JSON.stringify(newCards));
     window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
@@ -63,61 +83,65 @@ class Board extends Component {
 
   editCard = (name, columnId, cardId) => {
     const { cards } = this.state;
-    const newCards = cards;
-    newCards[columnId] = cards[columnId].map((card) => {
-      if (card.id === cardId) {
-        return {
-          ...card,
-          name,
-        };
-      } return card;
-    });
+    const newCards = {
+      ...cards,
+      [columnId]: cards[columnId].map((card) => {
+        if (card.id === cardId) {
+          return {
+            ...card,
+            name,
+          };
+        } return card;
+      }),
+    };
     this.setState({ cards: newCards });
     window.localStorage.setItem('myAppCards', JSON.stringify(newCards));
   }
 
   renameColumn = (name, columnId) => {
     const { columns } = this.state;
-    const newColumns = columns;
-    newColumns[columnId] = {
-      ...columns[columnId],
-      name,
-    };
+    const newColumns = columns.map((column) => {
+      if (column.id === columnId) {
+        return {
+          ...column,
+          name,
+        };
+      } return column;
+    });
     this.setState({ columns: newColumns });
     window.localStorage.setItem('myAppColumns', JSON.stringify(newColumns));
   }
 
   editDescription = (description) => {
     const { cards, currentCard } = this.state;
-    const newCards = cards;
-    newCards[currentCard.columnId] = cards[currentCard.columnId].map((card) => {
-      if (card.id === currentCard.id) {
-        return {
-          ...card,
-          description,
-        };
-      } return card;
-    });
+    const newCards = {
+      ...cards,
+      [currentCard.columnId]: cards[currentCard.columnId].map((card) => {
+        if (card.id === currentCard.id) {
+          return {
+            ...card,
+            description,
+          };
+        } return card;
+      }),
+    };
     this.setState({ cards: newCards });
     window.localStorage.setItem('myAppCards', JSON.stringify(newCards));
   }
 
   editComment = (id, text) => {
     const { currentCard, comments } = this.state;
-    const newComments = comments;
-    const newCardComments = comments.find(
-      item => item.id === currentCard.id,
-    ).comments.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          text,
-        };
-      } return item;
-    });
-    newComments.find(
-      item => item.id === currentCard.id,
-    ).comments = newCardComments;
+    const newComments = {
+      ...comments,
+      [currentCard.id]: comments[currentCard.id].map((comment) => {
+        if (comment.id === id) {
+          return {
+            ...comment,
+            text,
+          };
+        } return comment;
+      }),
+    };
     this.setState({ comments: newComments });
     window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
   }
@@ -125,15 +149,16 @@ class Board extends Component {
   addComment = (text, author) => {
     const { currentCard, comments, nextCommentId } = this.state;
     let newNextCommentId = nextCommentId;
-    const newComments = comments;
-    newComments.find(
-      item => item.id === currentCard.id,
-    ).comments.push({
-      id: nextCommentId,
-      text,
-      author,
-      description: '',
-    });
+    const newComments = {
+      ...comments,
+      [currentCard.id]: [...comments[currentCard.id],
+        {
+          id: nextCommentId,
+          text,
+          author,
+        },
+      ],
+    };
     newNextCommentId += 1;
     this.setState({ comments: newComments, nextCommentId: newNextCommentId });
     window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
@@ -142,11 +167,11 @@ class Board extends Component {
 
   deleteComment = (commentId) => {
     const { comments, currentCard } = this.state;
-    const newComments = comments;
-    const newCardComments = newComments.find(item => item.id === currentCard.id).comments;
-    newComments.find(
-      item => item.id === currentCard.id,
-    ).comments = newCardComments.filter(c => c.id !== commentId);
+    const newCardComments = comments[currentCard.id].filter(item => item.id !== commentId);
+    const newComments = {
+      ...comments,
+      [currentCard.id]: newCardComments,
+    };
     this.setState({ comments: newComments });
     window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
   }
@@ -192,7 +217,7 @@ class Board extends Component {
             <CardInfoPopup
               user={user}
               card={cards[currentCard.columnId].find(card => card.id === currentCard.id)}
-              comments={comments.find(item => item.id === currentCard.id).comments}
+              comments={comments[currentCard.id]}
               columnName={columns[currentCard.columnId].name}
               editComment={this.editComment}
               addComment={this.addComment}
