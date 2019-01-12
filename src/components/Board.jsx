@@ -32,6 +32,10 @@ class Board extends Component {
     window.addEventListener('keydown', this.closePopupByEsc);
   }
 
+  componentDidUnmont = () => {
+    window.removeEventListener('keydown', this.closePopupByEsc);
+  }
+
   signIn = (user) => {
     this.setState({ user });
     window.localStorage.setItem('lastUserName', user);
@@ -44,23 +48,23 @@ class Board extends Component {
       user,
       nextId,
     } = this.state;
-    let newNextId = nextId;
     const newCards = {
       ...cards,
-      [columnId]: [...cards[columnId], {
-        id: nextId,
-        name,
-        author: user,
-        description: '',
-      }],
+      [columnId]: [...cards[columnId],
+        {
+          id: nextId,
+          name,
+          author: user,
+          description: '',
+        },
+      ],
     };
     const newComments = {
       ...comments,
       [nextId]: [],
     };
-    newNextId += 1;
-    this.setState({ cards: newCards, comments: newComments, nextId: newNextId });
-    window.localStorage.setItem('nextId', newNextId);
+    this.setState({ cards: newCards, comments: newComments, nextId: nextId + 1 });
+    window.localStorage.setItem('nextId', nextId + 1);
     window.localStorage.setItem('myAppCards', JSON.stringify(newCards));
     window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
   }
@@ -91,7 +95,8 @@ class Board extends Component {
             ...card,
             name,
           };
-        } return card;
+        }
+        return card;
       }),
     };
     this.setState({ cards: newCards });
@@ -106,7 +111,8 @@ class Board extends Component {
           ...column,
           name,
         };
-      } return column;
+      }
+      return column;
     });
     this.setState({ columns: newColumns });
     window.localStorage.setItem('myAppColumns', JSON.stringify(newColumns));
@@ -122,7 +128,8 @@ class Board extends Component {
             ...card,
             description,
           };
-        } return card;
+        }
+        return card;
       }),
     };
     this.setState({ cards: newCards });
@@ -139,7 +146,8 @@ class Board extends Component {
             ...comment,
             text,
           };
-        } return comment;
+        }
+        return comment;
       }),
     };
     this.setState({ comments: newComments });
@@ -148,7 +156,6 @@ class Board extends Component {
 
   addComment = (text, author) => {
     const { currentCard, comments, nextCommentId } = this.state;
-    let newNextCommentId = nextCommentId;
     const newComments = {
       ...comments,
       [currentCard.id]: [...comments[currentCard.id],
@@ -159,10 +166,9 @@ class Board extends Component {
         },
       ],
     };
-    newNextCommentId += 1;
-    this.setState({ comments: newComments, nextCommentId: newNextCommentId });
+    this.setState({ comments: newComments, nextCommentId: nextCommentId + 1 });
     window.localStorage.setItem('myAppComments', JSON.stringify(newComments));
-    window.localStorage.setItem('nextCommentId', newNextCommentId);
+    window.localStorage.setItem('nextCommentId', nextCommentId + 1);
   }
 
   deleteComment = (commentId) => {
@@ -182,10 +188,6 @@ class Board extends Component {
 
   hideForm = () => {
     this.setState({ isInfoPopupShowed: false });
-  }
-
-  componentDidUnmont = () => {
-    window.removeEventListener('keydown', this.closePopupByEsc);
   }
 
   closePopupByEsc = (event) => {
@@ -211,7 +213,7 @@ class Board extends Component {
     } = this.state;
     return (
       <header>
-        {user && (<Header user={user} signIn={this.signIn} />)}
+        {user && <Header user={user} signIn={this.signIn} />}
         {isInfoPopupShowed && (
           <div className="info_popup">
             <CardInfoPopup
@@ -232,23 +234,27 @@ class Board extends Component {
             <SignIn signIn={this.signIn} />
           </div>
         )}
-        <div className="App">
-          {columns.map(column => user && (
-            <Column
-              addCard={this.addCard}
-              deleteCard={this.deleteCard}
-              editCard={this.editCard}
-              cards={cards[column.id]}
-              renameColumn={this.renameColumn}
-              comments={comments}
-              name={column.name}
-              id={column.id}
-              user={user}
-              showInfoPopup={this.showInfoPopup}
-              saveColumns={this.saveColumns}
-            />
-          ))}
-        </div>
+        {user && (
+          <div className="App">
+            {columns.map(column => (
+              <Column
+                suppressContentEditableWarning
+                key={column.id}
+                addCard={this.addCard}
+                deleteCard={this.deleteCard}
+                editCard={this.editCard}
+                cards={cards[column.id]}
+                renameColumn={this.renameColumn}
+                comments={comments}
+                name={column.name}
+                id={column.id}
+                user={user}
+                showInfoPopup={this.showInfoPopup}
+                saveColumns={this.saveColumns}
+              />
+            ))}
+          </div>
+        )}
       </header>
     );
   }

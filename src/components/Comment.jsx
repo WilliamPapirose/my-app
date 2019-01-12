@@ -17,10 +17,10 @@ class Comment extends Component {
     }
   }
 
-  setCursorToEnd = (ele) => {
+  setCursorToEnd = (element) => {
     const range = document.createRange();
     const sel = window.getSelection();
-    range.setStart(ele, 1);
+    range.setStart(element, 1);
     range.collapse(true);
     sel.removeAllRanges();
     sel.addRange(range);
@@ -46,34 +46,36 @@ class Comment extends Component {
     }
   }
 
+  deleteComment = () => {
+    const { deleteComment, id } = this.props;
+    deleteComment(id);
+  }
+
   render() {
     const { isEditable } = this.state;
     const {
-      id,
       text,
       author,
       user,
-      deleteComment,
     } = this.props;
     return (
       <div className="comment">
         <div
+          suppressContentEditableWarning
           role="presentation"
           className={isEditable ? 'comment_textarea' : 'comment_textarea transparant'}
           onKeyDown={this.handleKeyDown}
           ref={(ref) => { this.comment = ref; }}
-          contentEditable={(author === user && isEditable)}
+          contentEditable={author === user && isEditable}
         >
           {text}
         </div>
-        {(author === user) && (
+        {author === user && (
           <div className="comment_footer">
             <button
               type="button"
               className="button right"
-              onClick={() => {
-                deleteComment(id);
-              }}
+              onClick={this.deleteComment}
             >
                 delete
             </button>
@@ -90,8 +92,7 @@ class Comment extends Component {
           </div>
         )}
         <div className="comment_author">
-          Author:&nbsp;
-          {author}
+          Author: {author}
         </div>
       </div>
     );

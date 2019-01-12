@@ -44,20 +44,17 @@ class Comments extends Component {
           </button>
         </div>
         <div className="all_comments">
-          {comments.map((comment) => {
-            if (comment !== null) {
-              return (
-                <Comment
-                  editComment={editComment}
-                  user={user}
-                  author={comment.author}
-                  text={comment.text}
-                  id={comment.id}
-                  deleteComment={deleteComment}
-                />
-              );
-            } return null;
-          })}
+          {comments.map(comment => (
+            <Comment
+              key={comment.id}
+              editComment={editComment}
+              user={user}
+              author={comment.author}
+              text={comment.text}
+              id={comment.id}
+              deleteComment={deleteComment}
+            />
+          ))}
         </div>
       </div>
     );

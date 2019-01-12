@@ -12,31 +12,35 @@ class Card extends Component {
   }
 
   rename = (name) => {
-    const { edit, id } = this.props;
-    edit(name, id);
+    const { editCard, id, columnId } = this.props;
+    editCard(name, columnId, id);
+  }
+
+  deleteCard = () => {
+    const { deleteCard, id, columnId } = this.props;
+    deleteCard(columnId, id);
+  }
+
+  showInfoPopup = () => {
+    const { id, columnId, showInfoPopup } = this.props;
+    showInfoPopup({ columnId, id });
   }
 
   render() {
     const {
       user,
-      id,
-      columnId,
       author,
       commentsCount,
-      showInfoPopup,
-      del,
     } = this.props;
     const { name } = this.state;
     return (
       <div className="card">
         <div>
           <p className="left">
-            Author:&nbsp;
-            {author}
+            Author: {author}
           </p>
           <p className="right">
-            Comments:&nbsp;
-            {commentsCount}
+            Comments: {commentsCount}
           </p>
         </div>
         <EditableTitle
@@ -48,19 +52,15 @@ class Card extends Component {
           <button
             type="button"
             className="button button_card button_left"
-            onClick={() => {
-              showInfoPopup({ columnId, id });
-            }}
+            onClick={this.showInfoPopup}
           >
             More information
           </button>
-          {(user === author) && (
+          {user === author && (
             <button
               type="button"
               className="button button_card button_right"
-              onClick={() => {
-                del(id);
-              }}
+              onClick={this.deleteCard}
             >
             X
             </button>
@@ -74,13 +74,17 @@ class Card extends Component {
 Card.propTypes = {
   columnId: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,
-  del: PropTypes.func.isRequired,
-  edit: PropTypes.func.isRequired,
+  deleteCard: PropTypes.func.isRequired,
+  editCard: PropTypes.func.isRequired,
   user: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   showInfoPopup: PropTypes.func.isRequired,
-  commentsCount: PropTypes.number.isRequired,
+  commentsCount: PropTypes.number,
+};
+
+Card.defaultProps = {
+  commentsCount: 0,
 };
 
 export default Card;

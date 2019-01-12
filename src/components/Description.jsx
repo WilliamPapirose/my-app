@@ -6,15 +6,15 @@ class Description extends Component {
     super(props);
     const { card } = this.props;
     this.state = {
-      onEdit: false,
+      editMode: false,
       description: card.description,
-      withDescription: card.description,
+      addingMode: !!card.description,
     };
   }
 
   componentDidUpdate() {
-    const { onEdit, withDescription } = this.state;
-    if (withDescription && onEdit) this.description.focus();
+    const { editMode, addingMode } = this.state;
+    if (addingMode && editMode) this.description.focus();
   }
 
   onChange = (e) => {
@@ -25,7 +25,7 @@ class Description extends Component {
   editDescription = (description) => {
     const { editDescription } = this.props;
     editDescription(description);
-    this.setState({ onEdit: false });
+    this.setState({ editMode: false });
     this.description.blur();
   }
 
@@ -39,26 +39,31 @@ class Description extends Component {
     }
   }
 
-  isCanEdit = () => {
+  isCeditMode = () => {
     const { card, user } = this.props;
     if (card.author === user) {
-      this.setState({ onEdit: true });
+      this.setState({ editMode: true });
     } else this.description.blur();
   }
 
   addDescription = () => {
-    this.setState({ withDescription: true });
+    this.setState({ addingMode: true });
   }
 
   cancel = () => {
     const { card } = this.props;
-    this.setState({ description: card.description, onEdit: false });
+    this.setState({ description: card.description, editMode: false });
     this.description.blur();
   }
 
   delete = () => {
     this.editDescription('');
-    this.setState({ description: '', withDescription: false });
+    this.setState({ description: '', addingMode: false });
+  }
+
+  saveDescription = () => {
+    const { description } = this.state;
+    this.editDescription(description);
   }
 
   render() {
@@ -66,18 +71,18 @@ class Description extends Component {
       user,
       card,
     } = this.props;
-    const { description, onEdit, withDescription } = this.state;
+    const { description, editMode, addingMode } = this.state;
     return (
       <div
-        onFocus={this.isCanEdit}
+        onFocus={this.isCeditMode}
         className="description"
       >
-        {(card.author === user && !withDescription) && (
+        {(card.author === user && !addingMode) && (
           <div className="description">
             <button type="button" className="button plus" onClick={this.addDescription}> Add description </button>
           </div>
         )}
-        {(withDescription) && (
+        {addingMode && (
         <React.Fragment>
           <textarea
             onKeyDown={this.handleKeyDown}
@@ -87,9 +92,9 @@ class Description extends Component {
             ref={(ref) => { this.description = ref; }}
             className="textarea"
           />
-          {(card.author === user && onEdit) && (
+          {card.author === user && editMode && (
           <div className="author_buttons with_desc">
-            <button type="button" className="button" onClick={() => { this.editDescription(description); }}> Save </button>
+            <button type="button" className="button" onClick={this.save}> Save </button>
             <button type="button" className="button" onClick={this.cancel}> Cancel </button>
             <button type="button" className="button" onClick={this.delete}> Delete description </button>
           </div>

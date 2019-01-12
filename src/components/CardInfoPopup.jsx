@@ -20,8 +20,7 @@ const CardInfoPopup = ({
       <div className="popup">
         <div className="head">
           <p className="author">
-            Author:&nbsp;
-            {card.author}
+            Author: {card.author}
           </p>
           <p className="card_name">{card.name}</p>
           <p className="column_name">{columnName}</p>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+const maxLength = 42;
+
 class EditableTitle extends Component {
   constructor(props) {
     super(props);
@@ -8,37 +10,30 @@ class EditableTitle extends Component {
     this.state = {
       name,
       length: name.length,
-      maxLength: 42,
-      countOk: true,
       isFormShowed: false,
     };
   }
 
   onChange = (e) => {
     const { canEdit } = this.props;
-    const { maxLength } = this.state;
     if (!canEdit) e.preventDefault();
     else {
       this.setState({
-        length: this.Name.innerText.length,
-        countOk: (this.Name.innerText.length < maxLength),
+        length: this.titleText.innerText.length,
       });
     }
   }
 
   handleSubmit = () => {
-    const { maxLength } = this.state;
     const { rename } = this.props;
-    if (this.Name.innerText !== '' && this.Name.innerText.length <= maxLength) {
+    if (this.titleText.innerText !== '' && this.titleText.innerText.length <= maxLength) {
       this.setState({
-        name: this.Name.innerText,
-        length: this.Name.innerText.length,
-        countOk: true,
+        name: this.titleText.innerText,
         isFormShowed: false,
       });
-      rename(this.Name.innerText);
+      rename(this.titleText.innerText);
     }
-    this.Name.blur();
+    this.titleText.blur();
   }
 
   handleKeyDown = (e) => {
@@ -51,35 +46,32 @@ class EditableTitle extends Component {
 
   countCheck = () => {
     const { canEdit } = this.props;
-    const { maxLength } = this.state;
     if (canEdit) {
       this.setState({
         isFormShowed: true,
-        countOk: (this.Name.innerText.length < maxLength),
       });
-    } else this.Name.blur();
+    } else this.titleText.blur();
   }
 
   cancel = () => {
     const { name } = this.state;
-    this.Name.innerHTML = name;
+    this.titleText.innerHTML = name;
     this.setState({ isFormShowed: false, length: name.length });
   }
 
   render() {
     const {
-      maxLength,
       length,
       name,
       isFormShowed,
-      countOk,
     } = this.state;
     return (
       <div>
         <div
+          suppressContentEditableWarning
           role="presentation"
           onKeyDown={this.handleKeyDown}
-          ref={(ref) => { this.Name = ref; }}
+          ref={(ref) => { this.titleText = ref; }}
           onFocus={this.countCheck}
           contentEditable="true"
           onKeyPress={this.onChange}
@@ -89,15 +81,13 @@ class EditableTitle extends Component {
           {name}
         </div>
         {isFormShowed && (
-          <div>
-            <div className={countOk ? 'white' : 'red'}>
-              {length}
-              /
-              {maxLength}
+          <React.Fragment>
+            <div className={length < maxLength ? 'white' : 'red'}>
+              {length}/{maxLength}
             </div>
             <button type="button" className="button" onClick={this.handleSubmit}>Save</button>
             <button type="button" className="button" onClick={this.cancel}>Cancel</button>
-          </div>
+          </React.Fragment>
         )}
       </div>
     );

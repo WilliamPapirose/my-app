@@ -41,30 +41,29 @@ class Column extends Component {
       user,
       showInfoPopup,
       cards,
+      editCard,
+      deleteCard,
     } = this.props;
     return (
       <div className="column">
         <EditableTitle canEdit name={name} rename={this.rename} />
         <AddForm add={this.addCard} />
         <div>
-          {cards.map((card) => {
-            if (card !== null) {
-              return (
-                <Card
-                  name={card.name}
-                  id={card.id}
-                  commentsCount={comments[card.id].length}
-                  author={card.author}
-                  column={name}
-                  columnId={id}
-                  del={this.deleteCard}
-                  edit={this.editCard}
-                  user={user}
-                  showInfoPopup={showInfoPopup}
-                />
-              );
-            } return null;
-          })}
+          {cards.map(card => (
+            <Card
+              key={card.id}
+              name={card.name}
+              id={card.id}
+              commentsCount={comments[card.id].length}
+              author={card.author}
+              column={name}
+              columnId={id}
+              deleteCard={deleteCard}
+              editCard={editCard}
+              user={user}
+              showInfoPopup={showInfoPopup}
+            />
+          ))}
         </div>
       </div>
     );
@@ -81,7 +80,7 @@ Column.propTypes = {
   editCard: PropTypes.func.isRequired,
   cards: PropTypes.arrayOf(PropTypes.any).isRequired,
   renameColumn: PropTypes.func.isRequired,
-  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  comments: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default Column;
