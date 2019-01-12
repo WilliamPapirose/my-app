@@ -14,7 +14,7 @@ const CardInfoPopup = ({
   deleteComment,
   editComment,
 }) => (
-  <div>
+  <div className="info_popup">
     <div className="fade_inf" />
     <div className="window">
       <div className="popup">

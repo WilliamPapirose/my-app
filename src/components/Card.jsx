@@ -35,14 +35,12 @@ class Card extends Component {
     const { name } = this.state;
     return (
       <div className="card">
-        <div>
-          <p className="left">
-            Author: {author}
-          </p>
-          <p className="right">
-            Comments: {commentsCount}
-          </p>
-        </div>
+        <p className="left">
+          Author: {author}
+        </p>
+        <p className="right">
+          Comments: {commentsCount}
+        </p>
         <EditableTitle
           canEdit={user === author}
           name={name}

@@ -212,10 +212,10 @@ class Board extends Component {
       comments,
     } = this.state;
     return (
-      <header>
+      <React.Fragment>
         {user && <Header user={user} signIn={this.signIn} />}
         {isInfoPopupShowed && (
-          <div className="info_popup">
+          <React.Fragment>
             <CardInfoPopup
               user={user}
               card={cards[currentCard.columnId].find(card => card.id === currentCard.id)}
@@ -227,7 +227,7 @@ class Board extends Component {
               editDescription={this.editDescription}
               hide={this.hideForm}
             />
-          </div>
+          </React.Fragment>
         )}
         {!user && (
           <div role="presentation" onKeyDown={this.noneTabulation} className="fade">
@@ -255,7 +255,7 @@ class Board extends Component {
             ))}
           </div>
         )}
-      </header>
+      </React.Fragment>
     );
   }
 }
