@@ -5,7 +5,7 @@ import EditableTitle from './EditableTitle';
 class Card extends Component {
   constructor(props) {
     super(props);
-    const { name } = this.props;
+    const { name } = props;
     this.state = {
       name,
     };
