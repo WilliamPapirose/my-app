@@ -32,7 +32,7 @@ class Board extends Component {
     window.addEventListener('keydown', this.closePopupByEsc);
   }
 
-  componentDidUnmont = () => {
+  componentWillUnmount = () => {
     window.removeEventListener('keydown', this.closePopupByEsc);
   }
 
