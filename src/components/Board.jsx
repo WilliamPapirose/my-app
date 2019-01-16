@@ -198,10 +198,6 @@ class Board extends Component {
     }
   }
 
-  noneTabulation = (e) => {
-    if (e.key === 'Tab') { e.preventDefault(); }
-  }
-
   render() {
     const {
       user,
@@ -230,7 +226,7 @@ class Board extends Component {
           </React.Fragment>
         )}
         {!user && (
-          <div role="presentation" onKeyDown={this.noneTabulation} className="fade">
+          <div className="fade">
             <SignIn signIn={this.signIn} />
           </div>
         )}
