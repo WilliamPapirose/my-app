@@ -1,59 +1,35 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 
-class SignIn extends Component {
-  constructor() {
-    super();
-    this.state = {
-      user: '',
-    };
-  }
-
-  componentDidMount() {
-    this.input.focus();
-  }
-
-  componentDidUpdate() {
-    this.input.focus();
-  }
-
-  onChange = (e) => {
-    const user = e.target.value;
-    this.setState({ user });
-  }
-
-  handleSubmit = (e) => {
-    const { signIn } = this.props;
-    const { user } = this.state;
-    e.preventDefault();
-    signIn(user);
-    this.setState({ user: '' });
-  }
-
-  render() {
-    const { user } = this.state;
-    return (
-      <div className="who">
-        <p>Hi, what`s your name?</p>
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <input
-              ref={(ref) => { this.input = ref; }}
-              className="new_card_name"
-              type="text"
-              maxLength="10"
-              placeholder="Your Name"
-              value={user}
-              required
-              onChange={this.onChange}
-            />
-            <input className="button" type="submit" value="Start" />
-          </p>
-        </form>
-      </div>
-    );
-  }
-}
+const SignIn = ({
+  signIn,
+}) => {
+  let input;
+  return (
+    <div className="who">
+      <p>Hi, what`s your name?</p>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        if (!input.value.trim()) {
+          return;
+        }
+        signIn(input.value);
+        input.value = '';
+      }}
+      >
+        <input
+          ref={(node) => {
+            input = node;
+          }}
+          className="new_card_name"
+        />
+        <button className="button" type="submit">
+          SignIn
+        </button>
+      </form>
+    </div>
+  );
+};
 
 SignIn.propTypes = {
   signIn: PropTypes.func.isRequired,

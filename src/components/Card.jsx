@@ -1,88 +1,48 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import EditableTitle from './EditableTitle';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 
-class Card extends Component {
-  constructor(props) {
-    super(props);
-    const { name } = props;
-    this.state = {
-      name,
-    };
-  }
 
-  rename = (name) => {
-    const { editCard, id, columnId } = this.props;
-    editCard(name, columnId, id);
-  }
-
-  deleteCard = () => {
-    const { deleteCard, id, columnId } = this.props;
-    deleteCard(columnId, id);
-  }
-
-  showInfoPopup = () => {
-    const { id, columnId, showInfoPopup } = this.props;
-    showInfoPopup({ columnId, id });
-  }
-
-  render() {
-    const {
-      user,
-      author,
-      commentsCount,
-    } = this.props;
-    const { name } = this.state;
-    return (
-      <div className="card">
-        <p className="left">
-          Author: {author}
-        </p>
-        <p className="right">
-          Comments: {commentsCount}
-        </p>
-        <EditableTitle
-          canEdit={user === author}
-          name={name}
-          rename={this.rename}
-        />
-        <div className="card_buttons">
+const Card = ({
+  text,
+  author,
+  user,
+  deleteCard,
+}) => (
+  <React.Fragment>
+    <div className="card">
+      <p className="left">
+        Author: {author}
+      </p>
+      <p className="right">
+        Comments:
+      </p>
+      {text}
+      <div className="card_buttons">
+        <button
+          type="button"
+          className="button button_card button_left"
+        >
+          More information
+        </button>
+        {user.name === author && (
           <button
             type="button"
-            className="button button_card button_left"
-            onClick={this.showInfoPopup}
+            className="button button_card button_right"
+            onClick={deleteCard}
           >
-            More information
+          X
           </button>
-          {user === author && (
-            <button
-              type="button"
-              className="button button_card button_right"
-              onClick={this.deleteCard}
-            >
-            X
-            </button>
-          )}
-        </div>
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  </React.Fragment>
+);
 
 Card.propTypes = {
-  columnId: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
+  user: PropTypes.objectOf(PropTypes.string).isRequired,
   deleteCard: PropTypes.func.isRequired,
-  editCard: PropTypes.func.isRequired,
-  user: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  showInfoPopup: PropTypes.func.isRequired,
-  commentsCount: PropTypes.number,
-};
-
-Card.defaultProps = {
-  commentsCount: 0,
 };
 
 export default Card;
