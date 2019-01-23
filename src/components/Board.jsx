@@ -96,6 +96,7 @@ class Board extends Component {
             name,
           };
         }
+      
         return card;
       }),
     };
@@ -112,6 +113,7 @@ class Board extends Component {
           name,
         };
       }
+
       return column;
     });
     this.setState({ columns: newColumns });
@@ -129,6 +131,7 @@ class Board extends Component {
             description,
           };
         }
+
         return card;
       }),
     };
@@ -147,6 +150,7 @@ class Board extends Component {
             text,
           };
         }
+
         return comment;
       }),
     };
@@ -158,7 +162,8 @@ class Board extends Component {
     const { currentCard, comments, nextCommentId } = this.state;
     const newComments = {
       ...comments,
-      [currentCard.id]: [...comments[currentCard.id],
+      [currentCard.id]: [
+        ...comments[currentCard.id],
         {
           id: nextCommentId,
           text,
